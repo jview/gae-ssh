@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	
+	<bean id="cacheDefaultConfig" class="org.esblink.module.framework.basecache.DefaultConfig">
+		<property name="maxElementsInMemory" value="1000"/>
+		<property name="memoryStoreEvictionPolicy" value="LRU"/>
+		<property name="overflowToDisk" value="false"/>
+		<property name="diskStorePath" value=""/>
+		<property name="eternal" value="true"/>
+		<property name="timeToLiveSeconds" value="0"/>
+		<property name="timeToIdleSeconds" value="0"/>
+		<property name="diskPersistent" value="false"/>
+	</bean>
+
+	<!-- ========================== Module Cache ========================== -->
+	<bean id="moduleCacheProvider" class="org.esblink.module.framework.cache.ModuleCacheProvider">
+		<property name="moduleDao" ref="moduleDao"/>
+	</bean>
+
+	<bean id="moduleCache" class="org.esblink.module.framework.basecache.BaseCache">
+		<property name="cacheName" value="_module_cache_region" />
+		<property name="cacheProvider" ref="moduleCacheProvider" />
+	</bean>
+	
+	<!-- ========================== Department Cache ========================== -->
+	<bean id="departmentCacheStore" class="org.esblink.module.framework.basecache.CacheStore">
+		<property name="eternal" value="false"/>
+		<property name="timeToLiveSeconds" value="180"/>
+	</bean>
+
+	<bean id="departmentCacheProvider" class="org.esblink.module.framework.cache.DepartmentCacheProvider">
+		<property name="departmentDao" ref="deptDao"/>
+	</bean>
+
+	<bean id="departmentCache" class="org.esblink.module.framework.basecache.BaseCache">
+		<property name="cacheName" value="_department_cache_region" />
+		<property name="cacheStore" ref="departmentCacheStore" />
+		<property name="cacheProvider" ref="departmentCacheProvider" />
+	</bean>
+	
+	<!-- ========================== Role Cache ========================== -->
+	<bean id="roleCacheStore" class="org.esblink.module.framework.basecache.CacheStore">
+		<property name="eternal" value="false"/>
+		<property name="timeToLiveSeconds" value="180"/>
+	</bean>
+
+	<bean id="roleCacheProvider" class="org.esblink.module.framework.cache.RoleCacheProvider">
+		<property name="roleDao" ref="roleDao"/>
+	</bean>
+
+	<bean id="roleCache" class="org.esblink.module.framework.basecache.BaseCache">
+		<property name="cacheName" value="_role_cache_region" />
+		<property name="cacheStore" ref="roleCacheStore" />
+		<property name="cacheProvider" ref="roleCacheProvider" />
+	</bean>
+
+	<!-- ========================== User Cache ========================== -->
+	<bean id="userCacheStore" class="org.esblink.module.framework.basecache.CacheStore">
+		<property name="maxElementsInMemory" value="10000"/>
+		<property name="eternal" value="false"/>
+		<property name="timeToLiveSeconds" value="180"/>
+	</bean>
+
+	<bean id="userCacheProvider" class="org.esblink.module.framework.cache.UserCacheProvider">
+		<property name="userDao" ref="userDao"/>
+	</bean>
+
+	<bean id="userCache" class="org.esblink.module.framework.basecache.BaseCache">
+		<property name="cacheName" value="_user_cache_region" />
+		<property name="cacheStore" ref="userCacheStore" />
+		<property name="cacheProvider" ref="userCacheProvider" />
+	</bean>
+	
+	<!-- ========================== Flyweight User Cache ========================== -->
+	<bean id="flyweightUserCacheStore" class="org.esblink.module.framework.basecache.CacheStore">
+		<property name="maxElementsInMemory" value="10000"/>
+		<property name="eternal" value="false"/>
+		<property name="timeToLiveSeconds" value="180"/>
+	</bean>
+
+	<bean id="flyweightUserCacheProvider" class="org.esblink.module.framework.cache.FlyweightUserCacheProvider">
+		<property name="userDao" ref="userDao"/>
+	</bean>
+
+	<bean id="flyweightUserCache" class="org.esblink.module.framework.basecache.BaseCache">
+		<property name="cacheName" value="_fw_user_cache_region" />
+		<property name="cacheStore" ref="flyweightUserCacheStore" />
+		<property name="cacheProvider" ref="flyweightUserCacheProvider" />
+	</bean>
+	
+	<!-- ========================== Employee Cache ========================== -->
+	<bean id="employeeCacheStore" class="org.esblink.module.framework.basecache.CacheStore">
+		<property name="maxElementsInMemory" value="10000"/>
+		<property name="eternal" value="false"/>
+		<property name="timeToLiveSeconds" value="180"/>
+	</bean>
+
+	<bean id="employeeCacheProvider" class="org.esblink.module.framework.cache.EmployeeCacheProvider">
+		<property name="employeeDao" ref="employeeDao"/>
+	</bean>
+
+	<bean id="employeeCache" class="org.esblink.module.framework.basecache.BaseCache">
+		<property name="cacheName" value="_employee_cache_region" />
+		<property name="cacheStore" ref="employeeCacheStore" />
+		<property name="cacheProvider" ref="employeeCacheProvider" />
+	</bean>
+	
+</beans>

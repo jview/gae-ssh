@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+	<!-- 
+	<bean id="removeCacheTask" class="org.esblink.module.loginmgmt.actionLoginFilter.RemoveCacheTask">
+		<property name="lifeTm" value="1800000" />
+	</bean>
+	
+	<bean id="scheduledRemoveCacheTask" class="org.springframework.scheduling.timer.ScheduledTimerTask">
+		<property name="timerTask" ref="removeCacheTask" />
+		<property name="period" value="60000" />
+	</bean>
+	
+	<bean class="org.springframework.scheduling.timer.TimerFactoryBean">
+		<property name="scheduledTimerTasks">
+			<list>
+				<ref bean="scheduledRemoveCacheTask" />
+			</list>
+		</property>
+	</bean>
+ 	-->
+	<!-- 每个Biz都要写一个 -->
+	<bean id="loginBiz" class="org.esblink.module.loginmgmt.biz.LoginBiz">
+		<!-- 注入Biz的属性 -->
+		<property name="userBiz" ref="userBiz" />
+		<property name="roleBiz" ref="roleBiz" />
+	</bean>
+
+	<!-- Action配置 -->
+	<bean id="webLoginAction" class="org.esblink.module.loginmgmt.action.WebLoginAction" scope="prototype">
+		<property name="loginBiz" ref="loginBiz" />
+		<property name="logDbBiz" ref="logDbBiz" />
+	</bean>
+	
+	<bean id="webFrameAction" class="org.esblink.module.loginmgmt.action.WebFrameAction" scope="prototype"/>
+	
+	<bean id="switchLocaleAction" class="org.esblink.module.loginmgmt.action.SwitchLocaleAction" scope="prototype"/>
+	
+	<bean id="switchRoleAction" class="org.esblink.module.loginmgmt.action.SwitchRoleAction" scope="prototype"/>
+	
+	<bean id="switchStyleAction" class="org.esblink.module.loginmgmt.action.SwitchStyleAction" scope="prototype"/>
+	
+	 <bean id="changePasswordAction"
+		class="org.esblink.module.loginmgmt.action.ChangePasswordAction"
+		scope="prototype">
+		<property name="loginBiz" ref="loginBiz" />
+	</bean>
+	<bean id="passwordAction"
+		class="org.esblink.module.loginmgmt.action.PasswordAction"
+		scope="prototype">
+		<property name="loginBiz" ref="loginBiz" />
+	</bean>
+</beans>

@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="auth" namespace="/auth" extends="web-default">
+		<action name="home" class="forwardAction">
+			<result>/pages/auth/home.jsp</result>
+		</action>
+		<action name="user" class="forwardAction">
+			<result>/pages/auth/user.jsp</result>
+		</action>
+		<action name="role" class="forwardAction">
+			<result>/pages/auth/role.jsp</result>
+		</action>
+		<action name="loadDeptForComboBox" class="userAction" method="loadDeptForComboBox">
+			<result type="json"/>
+		</action>
+		<action name="loadDeptForComboBoxNoAuth" class="userAction" method="loadDeptForComboBoxNoAuth">
+			<result type="json"/>
+		</action>
+		<action name="pastAuth" class="userAction" method="pastAuth">
+			<result type="json"/>
+		</action>
+		<action name="loadDeptList" class="userAction" method="loadDeptList">
+			<result type="jsontree">
+				<param name="root">deptList</param>
+			</result>
+		</action>
+		<action name="loadDeptListEff" class="userAction" method="loadDeptListEff">
+			<result type="jsontree">
+				<param name="root">deptList</param>
+			</result>
+		</action>
+		<action name="loadDeptListNoAuth" class="userAction" method="loadDeptListNoAuth">
+			<result type="jsontree">
+				<param name="root">deptList</param>
+			</result>
+		</action>
+		<action name="loadDeptListNoAuthEff" class="userAction" method="loadDeptListNoAuthEff">
+			<result type="jsontree">
+				<param name="root">deptList</param>
+			</result>
+		</action>
+		<action name="loadUserEmp" class="userAction" method="loadUserEmp">
+			<result type="json" />
+		</action>
+		
+		<action name="findUserInfoByQuery" class="userInfoAction" method="findUserInfoByQuery">
+			<result type="json" name="success"/>
+		</action>
+		
+		<action name="loadAllRole" class="roleAction" method="loadAllRole">
+			<result type="json">
+				<param name="root">roles</param>
+			</result>
+		</action>
+		<action name="loadRoleByUsername" class="roleAction" method="loadRoleByUsername">
+			<result type="json">
+				<param name="root">userRoleList</param>
+			</result>
+		</action>
+		<action name="loadMyRole" class="roleAction" method="loadMyRole">
+			<result type="json">
+				<param name="root">userRoleList</param>
+			</result>
+		</action>
+		<action name="loadUserRole" class="roleAction" method="loadUserRole">
+			<result type="json">
+				<param name="root">userRoleList</param>
+			</result>
+		</action>
+		<action name="loadRoleModule" class="roleAction" method="loadRoleModule">
+			<result type="jsontree">
+				<param name="root">moduleList</param>
+			</result>
+		</action>
+		<action name="moduleTreeSearch2" class="roleAction" method="moduleTreeSearch">
+			<result type="json" name="success"/>
+		</action>
+		<!--查询所有的模块-->
+		<action name="roleModuleCheckList" class="roleAction" method="moduleCheckList">
+			<result type="jsontree">
+				<param name="root">allModuleCheckVO</param>
+			</result>
+		</action>
+		<action name="loadRoleModuleIds" class="roleAction" method="loadRoleModuleIds">
+			<result type="json">
+				<param name="root">ids</param>
+			</result>
+		</action>
+		<action name="saveOrUpdateRole" class="roleAction" method="saveOrUpdateRole">
+			<result type="json" />
+		</action>
+		<action name="copyRole" class="roleAction" method="copyRole">
+			<result type="json" />
+		</action>
+		<!--是否存在角色-->
+		<action name="existRole" class="roleAction" method="existRole">
+			<result type="json">
+				<param name="excludeProperties">role</param>
+			</result>
+		</action>
+		<action name="deleteRole" class="roleAction" method="deleteRole">
+			<result type="json" />
+		</action>
+		<action name="saveRoleModule" class="roleAction" method="saveRoleModule">
+			<result type="json" />
+		</action>
+		
+		 <action name="module" class="forwardAction">
+            <result>/pages/auth/module.jsp</result>
+        </action>
+        <action name="module4" class="forwardAction">
+            <result>/pages/auth/module4.jsp</result>
+        </action>
+        <action name="moduleObj" class="forwardAction">
+            <result>/pages/auth/moduleObj.jsp</result>
+        </action>
+        <action name="moduleHelp" class="forwardAction">
+            <result>module_help.html</result>
+        </action>
+        <action name="moduleManager" class="moduleManagerAction" method="moduleManager" >
+			<result name="success" type="dispatcher">/pages/auth/module_manager.jsp</result>			
+			<result name="error" type="dispatcher">/error.jsp</result>
+		</action>
+        <action name="saveModule" class="moduleManagerAction" method="saveModule" >
+			<result name="json">/viewResponse.jsp</result>
+			<result name="success">/pages/auth/success.jsp</result>
+			<result name="error" type="dispatcher">/error.jsp</result>
+		</action>
+		<action name="saveOrUpdateModule" class="moduleManagerAction" method="saveOrUpdateModule">
+			<result type="json" />
+		</action>
+		<action name="findPageByModule" class="moduleManagerAction" method="findPageByModule">
+			<result type="json" />
+		</action>
+		<action name="moduleTreeSearch" class="moduleManagerAction" method="moduleTreeSearch" >
+			<result type="json" name="success"/>
+		</action>
+		<action name="saveModule2" class="moduleManagerAction" method="saveModule">
+            <result type="json" name="success"/>
+        </action>
+        <action name="queryModuleList" class="moduleManagerAction" method="queryModuleList">
+            <result type="jsontree">
+                <param name="root">modules</param>
+            </result>
+        </action>
+        <action name="queryModuleJson" class="moduleManagerAction" method="queryModuleJson" >
+			<result name="json">/viewResponse.jsp</result>
+			<result name="error" type="dispatcher">/viewResponse.jsp</result>
+		</action>
+        <action name="preUpdate" class="moduleManagerAction" method="preUpdate" >
+			<result name="success">/pages/auth/module_edit.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+		<action name="prepare4AddModule" class="moduleManagerAction" method="prepare4AddModule">
+            <result name="success">module_edit.jsp</result>
+			<result name="error">/error.jsp</result>
+        </action>
+        <action name="prepare4EditModule" class="moduleManagerAction" method="prepare4EditModule">
+            <result name="success">module_edit.jsp</result>
+			<result name="error">/error.jsp</result>
+        </action>
+		
+		<!-- func ajax -->
+		<action name="ajaxUpdateTitle" class="moduleManagerAction" method="ajaxUpdateTitle" >
+			<result name="json">/viewResponse.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>		
+		<action name="ajaxRemoveNode" class="moduleManagerAction" method="ajaxRemoveNode" >
+			<result name="success">/pages/auth/success.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+		<action name="ajaxMoveNode" class="moduleManagerAction" method="ajaxMoveNode" >
+			<result name="success">/pages/auth/success.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+		
+		
+		<action name="addUser" class="userAction" method="addUser">
+			<result type="json" />
+		</action>
+		<action name="addLdapUsers" class="userAction" method="addLdapUsers">
+			<result type="json" />
+		</action>
+		<action name="loadUser" class="userAction" method="loadUser">
+			<result type="json" />
+		</action>
+		<action name="addUserRole" class="userAction" method="addUserRole">
+			<result type="json" />
+		</action>
+		<action name="saveUserRoleAsDefault" class="userAction" method="saveUserRoleAsDefault">
+			<result type="json" />
+		</action>
+		<action name="deleteUser" class="userAction" method="deleteUser">
+			<result type="json" />
+		</action>
+		<action name="deleteUserRole" class="userAction" method="deleteUserRole">
+			<result type="json" />
+		</action>
+		<action name="saveUserRoleDept" class="userAction" method="saveUserRoleDept">
+			<result type="json" />
+		</action>
+		<action name="loadUserRoleDept" class="userAction" method="loadUserRoleDept">
+			<result type="json" />
+		</action>
+		<action name="modUserPassword" class="userAction" method="modUserPassword">
+            <result type="json">
+            </result>
+        </action>
+		
+        <!--系统设置 -->
+		<action name="config" class="forwardAction">
+			<result>/pages/auth/config.jsp</result>
+		</action>
+        <action name="changeConfig" class="sysconfigAction" method="changeConfig">
+            <result type="json" name="success"/>
+        </action>
+
+	</package>
+</struts>

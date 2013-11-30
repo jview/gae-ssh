@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+    <package name="gui-default" extends="struts-default">
+    	<result-types>
+    		<!-- 
+    		<result-type default="true" name="data" class="org.esblink.common.base.interceptor.DataResult"/>
+    		-->
+    		<result-type name="form" class="org.esblink.common.base.interceptor.FormResult"/>
+    	</result-types>
+    	<interceptors>
+    		
+    		<interceptor name="path" class="org.esblink.common.base.interceptor.PathInterceptor"/>
+    		 
+    		<interceptor name="module" class="org.esblink.common.base.interceptor.ModuleInterceptor"/>
+    		
+    		<interceptor name="security" class="org.esblink.common.base.interceptor.SecurityInterceptor"/>
+    		<!--
+    		<interceptor name="data" class="org.esblink.common.base.interceptor.DataInterceptor"/>
+    		-->
+    		
+    		<interceptor name="error" class="org.esblink.common.base.interceptor.ExceptionInterceptor"/>
+    		
+    		<interceptor-stack name="guiStack">
+    			<interceptor-ref name="error"/>
+    			<interceptor-ref name="exception"/>
+                <interceptor-ref name="alias"/>
+                <interceptor-ref name="servletConfig"/>
+                <interceptor-ref name="prepare"/>
+                <interceptor-ref name="chain"/>
+                <interceptor-ref name="scopedModelDriven"/>
+                <interceptor-ref name="modelDriven"/>
+                <interceptor-ref name="fileUpload">
+                	<param name="maximumSize">20480000</param>
+                </interceptor-ref>
+                <interceptor-ref name="staticParams"/>
+                <interceptor-ref name="params" />
+                <interceptor-ref name="conversionError"/>
+                <interceptor-ref name="validation" />
+    			<interceptor-ref name="i18n"/>
+    			
+    			<interceptor-ref name="path"/>
+    			
+    			<interceptor-ref name="module"/>
+    			
+    			<interceptor-ref name="security"/>
+    			<!-- 
+    			<interceptor-ref name="data"/>
+    			-->
+    		</interceptor-stack>
+    	</interceptors>
+    	<default-interceptor-ref name="guiStack"/>
+
+    </package>
+
+</struts>

@@ -1,0 +1,121 @@
+@charset "gb2312";
+/*-- 全局无连接字体--*/
+body,td,th {
+	font-size: 12px;
+	color: #999999;
+}
+
+/*-- 渐变表格--*/
+.table
+{
+BORDER:#bfceff 1px solid;
+height:23;FILTER:progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr='#ddecfb',endColorStr='#ffffff');
+wi
+}
+/*-- 渐变表格--*/
+.tablea
+{
+BORDER:#CCCCCC 1px solid;
+cellpadding:0px ; cellspacing:0px ;
+height:23;FILTER:progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr='#F5F5F5',endColorStr='#ffffff');
+wi
+}
+
+
+/*-- 表单定义--*/
+input.TEXT{height:20px;border:1px solid #193b92;padding-top:3px;}
+
+
+/*-- 按钮 --*/
+.anjiu
+{
+BORDER:#719FDB 1px solid;
+height:23;FILTER:progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr='#E0ECF8',endColorStr='#ffffff');
+wi
+}
+/*-- 连接字体--*/
+.newbt 
+{
+	font-family: Arial, "宋体";
+	font-size: 12px;
+	font-weight: normal;
+	text-decoration: none;
+	color: #225DAB;
+	
+}
+/*-- 特细表格--*/
+TABLE.frmTable{
+  border: 1px solid #CBCBCB;
+  border-collapse:collapse;
+ }
+ TABLE.frmTable TD{
+  border: 1px solid #CBCBCB;
+  
+ }
+ 
+ .boldfont {
+	color: #255fb0;
+	font-weight: bold;
+	font-size: 12px;
+	font-family: "宋体";
+}
+
+ .tablefont {
+	color: #FFFFFF;
+	font-size: 10px;
+	font-family: "Arial";
+}
+
+
+ .topfont {
+	color: #FFFFFF;
+    font-size: 14px;
+	font-family: "宋体";
+}
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	background-color: #dfdfdd;
+}
+
+a:link {
+	color: #FFFFFF;
+	text-decoration: underline;
+}
+a:visited {
+	text-decoration: underline;
+	color: #FFFFFF;
+}
+a:hover {
+	text-decoration: none;
+	color: #FFFF00;
+}
+a:active {
+	text-decoration: underline;
+	color: #FFFF00;
+}
+.nav:link {
+	color: #FFFFFF;
+	font-size: 12px;
+	TEXT-DECORATION: underline;
+}
+.nav:visited {
+	color: #FFFFFF; font-size: 12px;
+	TEXT-DECORATION: underline;
+
+}
+.nav:hover {
+	color: #CCCCCC;
+	font-size: 12px;
+	TEXT-DECORATION: underline;
+}
+.input1{
+	border-width: 1px;
+	border-style: solid;
+	border-top-color: #333333;
+	border-right-color: #999999;
+	border-bottom-color: #999999;
+	border-left-color: #333333;
+}

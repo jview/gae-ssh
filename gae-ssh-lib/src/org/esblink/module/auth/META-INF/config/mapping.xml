@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.esblink.module.auth.domain"
+	auto-import="false">
+	<class name="Module" table="TS_MODULE">
+		<id name="id" type="java.lang.Long" column="MODULE_ID">
+			<generator class="sequence">
+				<param name="sequence">ts_module_id_seq</param>
+			</generator>
+		</id>
+		<property name="code" column="MODULE_CODE" />
+		<property name="action" column="ACTION_URL" />
+		<property name="name" column="MODULE_NAME" />
+		<property name="description" column="MODULE_DESC" />
+		<property name="icon" column="MODULE_ICON" />
+		<property name="typeFlag" column="MODULE_TYPE" />
+		<property name="applyTypeFlag" column="APP_TYPE" />
+		<property name="sort" column="SORT" />
+		<property name="helpUrl" column="HELP_URL" type="java.lang.String" />
+		<property name="showType" column="SHOW_TYPE" />
+		<property name="className" column="CLASS_NAME" />
+		<property name="leafValue" column="leaf_value" />
+		<property name="permitValue" column="permit_value" />
+		<property name="status" column="status" />
+		<property name="ifThird" column="IF_THIRD" />
+		<property name="createUser" type="java.lang.Long">
+            <column name="CREATE_USER"/>
+        </property>
+        <property name="createDate" type="java.util.Date">
+            <column name="CREATE_DATE" length="7"/>
+        </property>
+        <property name="modifyUser" type="java.lang.Long">
+            <column name="MODIFY_USER"/>
+        </property>
+        <property name="modifyDate" type="java.util.Date">
+            <column name="MODIFY_DATE" length="7"/>
+        </property>
+        <property name="paramTypeId" type="java.lang.String">
+            <column name="param_type_id" length="100"/>
+        </property>
+        <property name="paramValue" type="java.lang.String">
+            <column name="param_value" length="200"/>
+        </property>
+		<many-to-one class="Module" name="parent" column="PARENT_ID"
+			not-null="false" lazy="false" />
+	</class>
+	<class name="Role" table="TS_ROLE">
+		<id name="id" type="java.lang.Long" column="ROLE_ID">
+			<generator class="sequence">
+				<param name="sequence">seq_sysmgmt</param>
+			</generator>
+		</id>
+		<version name="updateTm" type="java.util.Date" unsaved-value="undefined" generated="never">
+            <column name="UPDATE_TM"/>
+        </version>
+		<property name="description" type="java.lang.String" column="ROLE_DESC" />
+		<property name="name" type="java.lang.String" column="ROLE_NAME" />
+		<property name="createEmpCode" column="CREATE_EMP" />
+		<property name="createTm" type="java.util.Date" column="CREATE_TM" />
+		<property name="updateEmpCode" column="UPDATE_EMP" />
+	</class>
+
+	<class name="User" table="TS_USER">
+		<id name="id" type="long" column="USER_ID">
+			<generator class="sequence">
+				<param name="sequence">seq_sysmgmt</param>
+			</generator>
+		</id>
+		<property name="username" column="USERNAME" />
+		<property name="statusFlag" column="STATUS" />
+		<property name="deptCode" column="DEPT_CODE" />
+		<property name="empCode" column="EMP_CODE" />
+		<property name="empName" column="EMP_NAME" />
+		<property name="deptId" column="DEPT_ID" />
+		<property name="password" column="PASSWORD" />
+		<property name="createEmpCode" column="CREATE_EMP" />
+		<property name="createTm" type="java.util.Date" column="CREATE_TM" />
+		<property name="updateEmpCode" column="UPDATE_EMP" />
+		<property name="updateTm" type="java.util.Date" column="UPDATE_TM" />
+	</class>
+</hibernate-mapping>

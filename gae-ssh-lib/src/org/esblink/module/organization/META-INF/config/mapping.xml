@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="org.esblink.module.organization.domain" auto-import="false">
+    <class name="Department" table="tm_department" lazy="false">
+        <id name="id" type="java.lang.Long" column="dept_id">
+			<generator class="sequence">
+				<param name="sequence">seq_sysmgmt</param>
+			</generator>
+		</id>
+		<property name="code" type="java.lang.String" column="dept_code"/>
+		<property name="deptName" type="java.lang.String" column="dept_name"/>
+		<property name="parentCode" type="java.lang.String" column="parent_dept_code"/>
+		<property name="createEmpCode" type="java.lang.String" column="create_emp"/>
+		<property name="createTm" type="java.util.Date" column="create_tm"/>
+		<property name="modifiedEmpCode" type="java.lang.String" column="update_emp"/>
+		<property name="modifiedTm" type="java.util.Date" column="update_tm"/>
+		<property name="validDate" type="java.util.Date" column="valid_dt"/>
+		<property name="invalidTime" type="java.util.Date" column="invalid_tm"/>
+		<property name="deleteFlg" type="java.lang.Boolean" column="delete_flg"/>
+	</class>
+    <class name="Employee" table="TM_EMPLOYEE">
+        <id name="empId" type="java.lang.Long">
+            <column name="EMP_ID" precision="18" not-null="true"/>
+            <generator class="sequence">
+                <param name="sequence">SEQ_SYSMGMT</param>
+            </generator>
+        </id>
+        <property name="empCode" type="java.lang.String">
+            <column name="EMP_CODE" length="30"/>
+        </property>
+        <property name="empDutyName" type="java.lang.String">
+            <column name="EMP_DUTY_NAME" length="50"/>
+        </property>
+        <property name="empTypeName" type="java.lang.String">
+            <column name="EMP_TYPE_NAME" length="50"/>
+        </property>
+        <property name="empName" type="java.lang.String">
+            <column name="EMP_NAME" length="32"/>
+        </property>
+        <property name="empGender" type="java.lang.String">
+            <column name="EMP_GENDER" length="4"/>
+        </property>
+        <property name="empEmail" type="java.lang.String">
+            <column name="EMP_EMAIL" length="60"/>
+        </property>
+        <property name="empMobile" type="java.lang.String">
+            <column name="EMP_MOBILE" length="30"/>
+        </property>
+        <property name="empOfficephone" type="java.lang.String">
+            <column name="EMP_OFFICEPHONE" length="32"/>
+        </property>
+        <property name="empStatus" type="java.lang.String">
+            <column name="EMP_STUS" length="32"/>
+        </property>
+        <property name="registerDate" type="java.util.Date">
+            <column name="REGISTER_DT" length="7"/>
+        </property>
+        <property name="logoutDate" type="java.util.Date">
+            <column name="LOGOUT_DT" length="7"/>
+        </property>
+        <property name="empDesc" type="java.lang.String">
+            <column name="EMP_DESC" length="200"/>
+        </property>
+        <property name="deptCode" type="java.lang.String">
+            <column name="DEPT_CODE" length="30" not-null="true"/>
+        </property>
+        <property name="changeZoneTime" type="java.util.Date">
+            <column name="CHANGE_ZONE_TM" length="7"/>
+        </property>
+        <property name="validFlg" type="java.lang.Long">
+            <column name="VALID_FLG" />
+        </property>
+        <property name="innerFlg" type="java.lang.Long">
+            <column name="INNER_FLG" />
+        </property>
+        <property name="updateEmp" type="java.lang.String">
+            <column name="UPDATE_EMP" length="30"/>
+        </property>
+        <property name="updateTm" type="java.util.Date">
+            <column name="UPDATE_TM" length="7"/>
+        </property>
+        <property name="createEmp" type="java.lang.String">
+            <column name="CREATE_EMP" length="30"/>
+        </property>
+        <property name="createTm" type="java.util.Date">
+            <column name="CREATE_TM" length="7"/>
+        </property>
+    </class>
+</hibernate-mapping>

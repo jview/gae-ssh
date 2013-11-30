@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." name="sfa_simple" default="auto">
+    <!-- all properties are in build.properties -->
+    
+    <property file="${basedir}/build.properties"/>
+    <property name="workdir"  value="${work.space}"/> 
+
+	<target name="clean">
+		<delete dir="${workdir}/WebContent/WEB-INF/classes"/>
+		<echo message="${workdir}/WebContent/WEB-INF/classes deleted"/>
+	 </target>
+	<!-- 清除配置，更新时会重新下载 -->
+	<target name="cleanConfig">
+			<delete file="${workdir}/src/com/sf/module/security/META-INF/config/beans.xml"/>
+			<delete file="${workdir}/resources/config/beans.xml"/>
+			<delete file="${workdir}/WebContent/META-INF/context.xml"/>			
+			<delete file="${workdir}/WebContent/WEB-INF/sysconfig.properties"/>
+		    <delete file="${workdir}/build/oracle-ds.xml"/>
+	 </target>
+	
+	<!-- 清除测试文件 -->
+	<target name="cleanTest">		
+		<delete dir="${workdir}/WebContent/test"/>		
+		<echo message="${workdir}/WebContent/test deleted"/>
+		<delete dir="${workdir}/WebContent/info.jsp"/>
+		<echo message="${workdir}/WebContent/info.jsp deleted"/>
+		<delete dir="${workdir}/WebContent/reports_test"/>
+		<echo message="${workdir}/WebContent/reports_test deleted"/>
+		<delete dir="${workdir}/WebContent/WEB-INF/classes/com/sf/test"/>
+		<echo message="${workdir}/WebContent/WEB-INF/classes/com/sf/test deleted"/>
+		<delete dir="${workdir}/WebContent/WEB-INF/classes/com/gof"/>
+		<echo message="${workdir}/WebContent/WEB-INF/classes/com/gof deleted"/>
+		<delete dir="${workdir}/WebContent/WEB-INF/classes/WEB-INF"/>
+		<echo message="${workdir}/WebContent/WEB-INF/classes/WEB-INF deleted"/>
+	</target>
+	
+	<target name="cleanTomcat">		 
+			<delete dir="${tomcat.home}/work/Catalina/localhost/${ant.project.name}"/>
+			<delete dir="${tomcat.home}/webapps/${ant.project.name}"/>
+			<delete dir="${tomcat.home}/webapps/${ant.project.name}.war"/>
+	</target>
+	
+    <!--svn本身需要的运行库 -->
+    <path id="svnant.lib">
+        <pathelement location="${svnjavahl.jar}"/>
+        <pathelement location="${svnant.jar}"/>
+        <pathelement location="${svnClientAdapter.jar}"/>
+    </path>
+    
+   
+    <!--项目的classpath库 -->
+    <path id="project.classpath">
+        <pathelement location="${workdir}/WebContent/WEB-INF/classes"/>
+        <fileset dir="${workdir}/WebContent/WEB-INF/lib"/>
+    	<fileset dir="${workdir}/build/lib"/>
+    </path>
+    <!--清理项目任务(干掉下载目录，tomcat原来的部署文件) -->
+    <target name="clear">       
+        <delete dir="${tomcat.home}/work/Catalina/localhost/${ant.project.name}"/>
+        <delete dir="${tomcat.home}/webapps/${ant.project.name}"/>
+        <delete dir="${tomcat.home}/webapps/${ant.project.name}.war"/>
+    </target>
+    <!-- load the svn task -->
+    <!--svn同步任务	-->
+    <taskdef name="svn" classname="org.tigris.subversion.svnant.SvnTask" classpathref="svnant.lib"/>
+    <target name="svn" depends="clear">
+        <mkdir dir="${workdir}"/>
+        <svn username="${svn.user}" password="${svn.passwd}" javahl="false" svnkit="true">
+            <checkout url="${urlRepos}" revision="HEAD"  destPath="${workdir}"/>
+        </svn>
+    </target>
+    
+	<!-- svn升级 -->
+	<target name="svn_u">
+		<echo message="${workdir} update start"/>
+        <mkdir dir="${workdir}"/>
+        <svn username="${svn.user}" password="${svn.passwd}" javahl="false" svnkit="true">
+            <checkout url="${urlRepos}" revision="HEAD"  destPath="${workdir}"/>
+        </svn>
+    </target>
+    
+    <!--编译-->
+    <target name="compile" depends="clean"  description="======compile project======">
+        <echo message="compile==========>${ant.project.name}: ${ant.file}"/>
+        <mkdir dir="${workdir}/WebContent/WEB-INF/classes"/>        
+        <copy includeemptydirs="false" todir="${workdir}/WebContent/WEB-INF/classes">
+            <fileset dir="${workdir}/src" excludes="**/*.launch, **/*.java"/>
+        </copy>
+    	  <copy includeemptydirs="false" todir="${workdir}/WebContent/WEB-INF/classes">
+            <fileset dir="${workdir}/resources">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>        
+        <copy includeemptydirs="false" todir="${workdir}/WebContent/WEB-INF/classes">
+            <fileset dir="${workdir}/test">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <!--<copy includeemptydirs="false" todir="${build.dir}">
+            <fileset dir="${java.config}" excludes="**/*.launch, **/*.java"/>
+        </copy>-->
+    	<javac encoding="utf-8"  debug="true" debuglevel="${debuglevel}" destdir="${workdir}/WebContent/WEB-INF/classes" source="${source}" target="${target}" includeantruntime="on">
+    		<src path="${workdir}/src"/>
+        	<src path="${workdir}/resources"/>
+    		<classpath>
+	        	<path refid="project.classpath"/>	        	
+			</classpath>   
+    	</javac>
+        <javac encoding="UTF8" debug="true" debuglevel="${debuglevel}" destdir="${workdir}/WebContent/WEB-INF/classes" source="${source}" target="${target}" 
+        					includejavaruntime="true" includeantruntime="on">
+            <src path="${workdir}/src"/>
+            <!--<exclude name="config/"/>-->
+            <classpath>
+            	<path refid="project.classpath"/>            	 
+			</classpath>              	
+        </javac>
+    	               
+        <javac encoding="utf-8"  debug="true" debuglevel="${debuglevel}" destdir="${workdir}/WebContent/WEB-INF/classes" source="${source}" target="${target}" includeantruntime="on">
+          <src path="${workdir}/test"/>
+        	<classpath>
+            	<path refid="project.classpath"/>            
+			</classpath>   
+        </javac>
+    </target>
+    <!--压缩，打包-->
+    <target name="war" depends="cleanTest" description="======compress j2ee war file======">
+        <mkdir dir="${workdir}"/>
+        <!--compress j2ee war file-->
+    	<delete file="${workdir}/${ant.project.name}.war"/>
+        <war destfile="${workdir}/${ant.project.name}.war" webxml="${workdir}/WebContent/WEB-INF/web.xml">
+            <fileset dir="${workdir}/WebContent"/>
+            <classes dir="${workdir}/WebContent/WEB-INF/classes"/>
+           
+        </war>
+     </target>
+    <!--shutdowntomcat-->
+    <target name="shutdowntomcat" description="========shutdowntomcat===========">
+        <exec executable="${tomcat.home}/bin/shutdown.bat" failonerror="false"></exec>
+        <sleep seconds="10"/>
+    </target>
+    <!--startuptomcat-->
+    <target name="startuptomcat" description="========startuptomcat===========">
+        <sleep seconds="5"/>
+        <exec executable="${tomcat.home}/bin/startup.bat" failonerror="false"></exec>
+    </target>
+    <!--部署到tomcat下面克-->
+    <target name="deploy" depends="war">
+    	<echo message="deploy ${war.file} to ${tomcat.home}/webapps"/>
+        <copy file="${war.file}" todir="${tomcat.home}/webapps"/>
+    </target>
+    <!--全自动无敌部署，启动关闭tomcat-->
+    <target name="auto" depends="shutdowntomcat,deploy,startuptomcat">
+        <echo message="DONE!!!!"/>
+    </target>
+    
+    <property name="findbugs.home" value="${workdir}/build/lib-findbugs" />
+	<path id="findbugs.path">
+		<fileset dir="${findbugs.home}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	<property name="report"   value="${workdir}/docs/report"/> 
+	<property name="test.xml" value="${report}/test-xml"/> 
+	<property name="test.html" value="${report}/test-html"/>
+	<property name="findbugs.html" value="${report}/findbugs-html"/>
+	<property name="findbugs.xml" value="${report}/findbugs-xml"/>  
+	
+	<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpathref="findbugs.path" /> 	
+
+	<target name="findbugs">
+	<echo message="==========begin to scan ${project.name} with Findbugs!==========" />
+		<mkdir dir="${findbugs.html}"/>
+		<mkdir dir="${findbugs.xml}"/> 
+		<findbugs home="${findbugs.home}" output="xml" outputFile="${findbugs.xml}/findbugs.xml" reportlevel="medium" jvmargs="-Xmx512m" >
+			<class location="${workdir}/WebContent/WEB-INF/classes" />
+			<auxClasspath>				
+				<fileset dir="${workdir}/build/lib-findbugs">
+					<include name="*.jar" />
+				</fileset>
+			</auxClasspath>
+			<auxClasspath>
+				<fileset dir="${workdir}/WebContent/WEB-INF/lib">
+					<include name="*.jar" />
+				</fileset>
+			</auxClasspath>
+			<auxClasspath>				
+				<fileset dir="${workdir}/build/lib">
+					<include name="*.jar" />
+				</fileset>
+			</auxClasspath>
+			
+			<sourcePath path="src" />
+			<sourcePath path="${workdir}/test/com/sf/test/module/TestPlace.java" />	
+		</findbugs>
+		
+		<echo message="==========scan ${project.name} with Findbugs over!==========" />
+	</target>
+    
+    <target name="test"> 
+            <mkdir dir="${test.xml}"/> 
+            <mkdir dir="${test.html}"/> 		      
+            <junit printsummary="yes" haltonfailure="no">                    
+            	     <classpath refid="project.classpath"/>              	    
+                   <formatter type="xml"/> 
+                   <batchtest fork="yes" todir="${test.xml}"> 
+                          <fileset dir="${workdir}/test" includes="**/Test*.java"/> 
+                   </batchtest> 
+            </junit> 
+            <junitreport todir="${test.html}"> 
+                   <fileset dir="${test.xml}"> 
+                          <include name="*.xml"/> 
+                   </fileset> 
+                   <report format="frames" todir="${test.html}"/> 
+            </junitreport> 
+     </target>
+</project>

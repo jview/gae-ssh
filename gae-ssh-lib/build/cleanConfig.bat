@@ -1,0 +1,3 @@
+ant cleanAmpConfig
+
+pause

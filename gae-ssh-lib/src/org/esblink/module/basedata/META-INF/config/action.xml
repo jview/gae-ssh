@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="basedata" namespace="/basedata" extends="web-default">
+		<action name="linkFavorite" class="forwardAction">
+            <result>/pages/basedata/linkFavorite.jsp</result>
+        </action> 
+        <!--根据用户Id查询收藏夹-->
+        <action name="findLinkFavoriteByUserId" class="linkFavoriteAction" method="findLinkFavoriteByUserId">
+			<result type="json" name="success"/>
+        </action>
+        <!--显示收藏夹树形-->
+        <action name="findFavoriteByUserId" class="linkFavoriteAction" method="findFavoriteByUserId">
+		 	<result type="jsontree">
+             	<param name="root">favoList</param>
+        	 </result>
+        </action>
+        <action name="findFavoriteByUserIdJson" class="linkFavoriteAction" method="findFavoriteByUserIdJson">
+		 	<result name="json">/viewResponse.jsp</result>
+			<result name="error" type="dispatcher">/viewResponse.jsp</result>
+        </action>
+        <action name="saveLinkFavorites" class="linkFavoriteAction" method="saveLinkFavorites">
+            <result type="json" name="success"/>
+        </action>
+        <action name="saveLinkFavorite" class="linkFavoriteAction" method="saveLinkFavorite">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findLinkFavorite" class="linkFavoriteAction" method="findLinkFavorite">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findByLinkFavorite" class="linkFavoriteAction" method="findByLinkFavorite">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findPageByLinkFavorite" class="linkFavoriteAction" method="findPageByLinkFavorite">
+            <result type="json" name="success"/>
+        </action>
+        <action name="deleteLinkFavorites" class="linkFavoriteAction" method="deleteLinkFavorites">
+            <result type="json" name="success"/>
+        </action>
+        
+        <action name="linkHistory" class="forwardAction">
+            <result>/pages/basedata/linkHistory.jsp</result>
+        </action>
+        <action name="saveLinkHistory" class="linkHistoryAction" method="saveLinkHistory">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findLinkHistory" class="linkHistoryAction" method="findLinkHistory">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findByLinkHistory" class="linkHistoryAction" method="findByLinkHistory">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findPageByLinkHistory" class="linkHistoryAction" method="findPageByLinkHistory">
+            <result type="json" name="success"/>
+        </action>
+        <action name="deleteLinkHistorys" class="linkHistoryAction" method="deleteLinkHistorys">
+            <result type="json" name="success"/>
+        </action>
+        <action name="exportLinkHistory" class="linkHistoryAction" method="exportExcel">
+            <result type="stream">
+                <param name="contentType">application/vnd.ms-excel</param>
+                <param name="inputName">stream</param>
+                <param name="contentDisposition">attachment;filename="linkHistory.xls"</param>
+                <param name="bufferSize">4096</param>
+            </result>
+        </action>
+        
+        <action name="linkRecently" class="forwardAction">
+            <result>/pages/basedata/linkRecently.jsp</result>
+        </action>
+        <action name="findRecently" class="linkRecentlyAction" method="findRecently" >
+              <result type="json" name="success"/>
+        </action>
+        <action name="saveLinkRecently" class="linkRecentlyAction" method="saveLinkRecently">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findLinkRecently" class="linkRecentlyAction" method="findLinkRecently">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findByLinkRecently" class="linkRecentlyAction" method="findByLinkRecently">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findPageByLinkRecently" class="linkRecentlyAction" method="findPageByLinkRecently">
+            <result type="json" name="success"/>
+        </action>
+        <action name="deleteLinkRecentlys" class="linkRecentlyAction" method="deleteLinkRecentlys">
+            <result type="json" name="success"/>
+        </action>
+        <action name="deleteAllRecently" class="linkRecentlyAction" method="deleteAllRecently">
+            <result type="json" name="success"/>
+        </action>
+        
+        <action name="linkRelation" class="forwardAction">
+            <result>/pages/basedata/linkRelation.jsp</result>
+        </action>
+        <action name="findRelation" class="linkRelationAction" method="findRelation" >
+            <result type="json" name="success"/>
+        </action>
+        <action name="saveLinkRelation" class="linkRelationAction" method="saveLinkRelation">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findLinkRelation" class="linkRelationAction" method="findLinkRelation">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findByLinkRelation" class="linkRelationAction" method="findByLinkRelation">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findPageByLinkRelation" class="linkRelationAction" method="findPageByLinkRelation">
+            <result type="json" name="success"/>
+        </action>
+        <action name="deleteLinkRelations" class="linkRelationAction" method="deleteLinkRelations">
+            <result type="json" name="success"/>
+        </action>
+        
+        <action name="sysconfig" class="forwardAction">
+            <result>/pages/basedata/sysconfig.jsp</result>
+        </action>
+        <action name="saveSysconfig" class="sysconfigAction" method="saveSysconfig">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findSysconfig" class="sysconfigAction" method="findSysconfig">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findBySysconfig" class="sysconfigAction" method="findBySysconfig">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findSysconfigValue" class="sysconfigAction" method="findSysconfigValue">
+			<result name="json">/viewResponse.jsp</result>
+		</action>
+        <action name="findPageBySysconfig" class="sysconfigAction" method="findPageBySysconfig">
+            <result type="json" name="success"/>
+        </action>
+        <action name="deleteSysconfigs" class="sysconfigAction" method="deleteSysconfigs">
+            <result type="json" name="success"/>
+        </action>
+        
+        <action name="parameter" class="forwardAction">
+            <result>/pages/basedata/parameter.jsp</result>
+        </action>
+        <action name="saveParameter" class="parameterAction" method="saveParameter">
+            <result type="json" name="success"/>
+        </action>
+        <action name="saveUserParameterByCode" class="parameterUserAction" method="saveUserParameterByCode">
+              <result name="json">/viewResponse.jsp</result>
+        </action>
+        <action name="findUserParameterByCode" class="parameterUserAction" method="findUserParameterByCode">
+              <result name="json">/viewResponse.jsp</result>
+        </action>
+        <action name="findParameter" class="parameterAction" method="findParameter">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findByParameter" class="parameterAction" method="findByParameter">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findPageByParameter" class="parameterAction" method="findPageByParameter">
+            <result type="json" name="success"/>
+        </action>
+        <action name="deleteParameters" class="parameterAction" method="deleteParameters">
+            <result type="json" name="success"/>
+        </action>
+        
+        <action name="parameterUser" class="forwardAction">
+            <result>/pages/basedata/parameterUser.jsp</result>
+        </action>
+        <action name="saveParameterUser" class="parameterUserAction" method="saveParameterUser">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findParameterUser" class="parameterUserAction" method="findParameterUser">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findByParameterUser" class="parameterUserAction" method="findByParameterUser">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findPageByParameterUser" class="parameterUserAction" method="findPageByParameterUser">
+            <result type="json" name="success"/>
+        </action>
+        <action name="deleteParameterUsers" class="parameterUserAction" method="deleteParameterUsers">
+            <result type="json" name="success"/>
+        </action>
+        
+        <action name="logDb" class="forwardAction">
+            <result>/pages/basedata/logDb.jsp</result>
+        </action>
+        <action name="saveLogDb" class="logDbAction" method="saveLogDb">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findLogDb" class="logDbAction" method="findLogDb">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findByLogDb" class="logDbAction" method="findByLogDb">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findPageByLogDb" class="logDbAction" method="findPageByLogDb">
+            <result type="json" name="success"/>
+        </action>
+        <action name="deleteLogDbs" class="logDbAction" method="deleteLogDbs">
+            <result type="json" name="success"/>
+        </action>
+        <action name="exportLogDb" class="logDbAction" method="exportExcel">
+            <result type="stream">
+                <param name="contentType">application/vnd.ms-excel</param>
+                <param name="inputName">stream</param>
+                <param name="contentDisposition">attachment;filename="logDb.xls"</param>
+                <param name="bufferSize">4096</param>
+            </result>
+        </action>
+        
+        <action name="codeTable" class="forwardAction">
+            <result>/pages/basedata/codeTable.jsp</result>
+        </action>
+        <action name="saveCodeTable" class="codeTableAction" method="saveCodeTable">
+            <result type="json" name="success"/>
+        </action>
+        <action name="saveCodeTableJsp" class="codeTableAction" method="saveCodeTableJsp">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findCodeTable" class="codeTableAction" method="findCodeTable">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findByCodeTable" class="codeTableAction" method="findByCodeTable">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findPageByCodeTable" class="codeTableAction" method="findPageByCodeTable">
+            <result type="json" name="success"/>
+        </action>
+        <action name="deleteCodeTables" class="codeTableAction" method="deleteCodeTables">
+            <result type="json" name="success"/>
+        </action>
+        <action name="exportCodeTable" class="codeTableAction" method="exportCodeTable">
+            <result type="stream">
+                <param name="contentType">application/vnd.ms-excel</param>
+                <param name="inputName">stream</param>
+                <param name="contentDisposition">attachment;filename="CodeTable.xls"</param>
+                <param name="bufferSize">4096</param>
+            </result>
+        </action>
+        
+        <!--
+        <action name="codeTable" class="forwardAction">
+            <result>codeTable.jsp</result>
+        </action>
+        <action name="saveCodeTable" class="codeTableAction" method="saveCodeTable">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findCodeTable" class="codeTableAction" method="findCodeTable">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findByCodeTable" class="codeTableAction" method="findByCodeTable">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findCodeTableByDataId" class="codeTableAction" method="findCodeTableByDataId">
+            <result name="json">/viewResponse.jsp</result>
+        </action>
+        <action name="findPageByCodeTable" class="codeTableAction" method="findPageByCodeTable">
+            <result type="json" name="success"/>
+        </action>
+        <action name="deleteCodeTables" class="codeTableAction" method="deleteCodeTables">
+            <result type="json" name="success"/>
+        </action>
+        <action name="resetCodeTableJs" class="codeTableAction" method="resetCodeTableJs">
+            <result type="json" name="success"/>
+        </action>
+        <action name="codeTableTree" class="codeTableAction" method="codeTableTree">
+            <result type="jsontree">
+                <param name="root">codeTables</param>
+            </result>
+        </action>
+       
+        <action name="codeTableByType" class="codeTableAction" method="codeTableByType">
+            <result type="json" name="success"/>
+        </action>
+         <action name="codeTableTreeSearch" class="codeTableAction" method="codeTableTreeSearch">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findCodeTableByStatus" class="codeTableAction" method="findCodeTableByStatus">
+            <result type="json" name="success"/>
+        </action>
+        
+        <action name="msgInfo" class="forwardAction">
+            <result>msgInfo.jsp</result>
+        </action>
+        <action name="findPageByMsgInfo" class="msgInfoAction" method="findPageByMsgInfo">
+            <result type="json" name="success"/>
+        </action>
+        <action name="deleteMsgInfos" class="msgInfoAction" method="deleteMsgInfos">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findMsgInfo" class="msgInfoAction" method="findMsgInfo">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findByMsgInfo" class="msgInfoAction" method="findByMsgInfo">
+            <result type="json" name="success"/>
+        </action>
+        <action name="saveMsgInfo" class="msgInfoAction" method="saveMsgInfo">
+            <result type="json" name="success"/>
+        </action>
+        <action name="exportMsgInfo" class="msgInfoAction" method="exportMsgInfo">
+            <result type="stream">
+                <param name="contentType">application/vnd.ms-excel</param>
+                <param name="inputName">stream</param>
+                <param name="contentDisposition">attachment;filename="MsgInfo.xls"</param>
+                <param name="bufferSize">4096</param>
+            </result>
+        </action>
+        
+        <action name="recentlyType" class="forwardAction">
+            <result>recentlyType.jsp</result>
+        </action>
+        <action name="saveRecentlyType" class="recentlyTypeAction" method="saveRecentlyType">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findRecentlyType" class="recentlyTypeAction" method="findRecentlyType">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findByRecentlyType" class="recentlyTypeAction" method="findByRecentlyType">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findPageByRecentlyType" class="recentlyTypeAction" method="findPageByRecentlyType">
+            <result type="json" name="success"/>
+        </action>
+        <action name="deleteRecentlyTypes" class="recentlyTypeAction" method="deleteRecentlyTypes">
+            <result type="json" name="success"/>
+        </action>
+        <action name="exportRecentlyType" class="recentlyTypeAction" method="exportRecentlyType">
+            <result type="stream">
+                <param name="contentType">application/vnd.ms-excel</param>
+                <param name="inputName">stream</param>
+                <param name="contentDisposition">attachment;filename="RecentlyType.xls"</param>
+                <param name="bufferSize">4096</param>
+            </result>
+        </action>
+        <action name="recentlyInput" class="forwardAction">
+            <result>recentlyInput.jsp</result>
+        </action>
+        <action name="saveRecentlyInput" class="recentlyInputAction" method="saveRecentlyInput">
+            <result type="json" name="success"/>
+        </action>
+        <action name="saveInput" class="recentlyInputAction" method="saveInput">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findRecentlys" class="recentlyInputAction" method="findRecentlys">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findRecentlyInput" class="recentlyInputAction" method="findRecentlyInput">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findByRecentlyInput" class="recentlyInputAction" method="findByRecentlyInput">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findPageByRecentlyInput" class="recentlyInputAction" method="findPageByRecentlyInput">
+            <result type="json" name="success"/>
+        </action>
+        <action name="deleteRecentlyInputs" class="recentlyInputAction" method="deleteRecentlyInputs">
+            <result type="json" name="success"/>
+        </action>
+        <action name="exportRecentlyInput" class="recentlyInputAction" method="exportRecentlyInput">
+            <result type="stream">
+                <param name="contentType">application/vnd.ms-excel</param>
+                <param name="inputName">stream</param>
+                <param name="contentDisposition">attachment;filename="RecentlyInput.xls"</param>
+                <param name="bufferSize">4096</param>
+            </result>
+        </action>
+		-->
+	</package>
+</struts>

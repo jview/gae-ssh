@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="loginmgmt" namespace="/loginmgmt" extends="web-default">
+	<!-- 测试登录WebService -->
+
+		<action name="blank" class="forwardAction">
+			<result>/pages/loginmgmt/blank.jsp</result>
+		</action>
+		<action name="forbidden" class="forwardAction">
+			<result>/pages/loginmgmt/forbidden.jsp</result>
+		</action>
+		<action name="index" class="webLoginAction" method="index">
+			<result>/pages/loginmgmt/login.jsp</result>
+		</action>
+		
+		<action name="frame" class="webFrameAction">
+			<result>/pages/loginmgmt/frame.jsp</result>
+		</action>
+		<action name="changeLog" class="forwardAction">
+			<result>/pages/loginmgmt/changeLog.jsp</result>
+		</action>
+		<action name="checkPermit" class="webFrameAction" method="checkPermit">
+			<result name="json">/viewResponse.jsp</result>
+		</action>
+		<action name="paraEncode" class="webFrameAction" method="paraEncode">
+			<result name="json">/viewResponse.jsp</result>
+		</action>
+		<action name="paraDecode" class="webFrameAction" method="paraDecode">
+			<result name="json">/viewResponse.jsp</result>
+		</action>
+		<action name="userEncodeStr" class="webFrameAction" method="userEncodeStr">
+			<result name="json">/viewResponse.jsp</result>
+		</action>
+		<action name="clearModuleCache" class="webFrameAction" method="clearModuleCache">
+			<result name="json">/viewResponse.jsp</result>
+		</action>
+		<action name="findCurrentUserInfo" class="webFrameAction" method="findCurrentUserInfo">
+			<result name="json">/viewResponse.jsp</result>
+		</action>
+		<action name="checkPassword" class="webLoginAction" method="checkPassword">
+			<result type="json"></result>
+		</action>
+		<action name="login" class="webLoginAction" method="login">
+			<result type="json"></result>
+		</action>
+		<action name="logout" class="webLoginAction" method="logout">
+			<result>/pages/loginmgmt/logout_success.jsp</result>
+		</action>
+		<action name="login_locale" class="switchLocaleAction">
+			<result>/pages/loginmgmt/login.jsp</result>
+		</action>
+		<action name="loginUI_locale" class="switchLocaleAction"  method="swichLocale">
+			<result>/pages/loginmgmt/jlogin.jsp</result>
+		</action>
+		<action name="switchRole" class="switchRoleAction">
+			<result type="json"></result>
+		</action>
+		<action name="switchStyle" class="switchStyleAction">
+			<result type="json"></result>
+		</action>
+		
+		<action name="change_password" class="changePasswordAction" method="change">
+			<result type="json" />
+		</action>
+		<action name="password" class="passwordAction" method="forward">
+			<result>/pages/loginmgmt/password.jsp</result>
+			<result name="failure">logout_success.jsp</result>
+		</action>
+		<action name="submit_password" class="passwordAction" method="submit">
+			<result name="success">password_success.jsp</result>
+			<result name="failure">password_failure.jsp</result>
+		</action>
+		
+		<action name="jlogin" class="forwardAction">
+			<result>/pages/loginmgmt/jlogin.jsp</result>
+		</action>
+		<action name="jlogout" class="webLoginAction" method="logout">
+			<result>/pages/loginmgmt/jlogout_success.jsp</result>
+		</action>
+		<action name="jframe" class="webFrameAction">
+			<result>/pages/loginmgmt/jframe.jsp</result>
+		</action>
+	</package>
+</struts>

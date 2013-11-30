@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+    <package name="framework" namespace="/framework" extends="web-default">
+		<action name="changeExtDress" class="extUtilsAction" method="changeExtDress">
+			<result type="json"/>
+		</action>
+    </package>
+</struts>

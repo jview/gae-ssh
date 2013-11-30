@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." name="gae-ssh" default="auto">
+    <!-- all properties are in build.properties -->
+    
+    <property file="${basedir}/build/build.properties"/>
+    <property name="workdir"  value="${basedir}"/> 
+	<property name="sdk.dir" location="D:/services/lib/appengine-java-sdk-1.8.8"/>
+	<import file="${sdk.dir}/config/user/ant-macros.xml"/>
+	<target name="clean">
+		<delete dir="${workdir}/war/WEB-INF/classes"/>
+		<echo message="${workdir}/war/WEB-INF/classes deleted"/>
+	 </target>
+	<!-- 清除配置，更新时会重新下载 -->
+	<target name="cleanConfig">
+			<delete file="${workdir}/src/org/esblink/module/security/META-INF/config/beans.xml"/>
+			<delete file="${workdir}/resources/config/beans.xml"/>
+			<delete file="${workdir}/war/META-INF/context.xml"/>			
+			<delete file="${workdir}/war/WEB-INF/sysconfig.properties"/>
+		    <delete file="${workdir}/build/oracle-ds.xml"/>
+	 </target>
+	
+	<!-- 清除测试文件 -->
+	<target name="cleanTest">		
+		<delete dir="${workdir}/war/test"/>		
+		<echo message="${workdir}/war/test deleted"/>
+		<delete dir="${workdir}/war/info.jsp"/>
+		<echo message="${workdir}/war/info.jsp deleted"/>
+		<delete dir="${workdir}/war/reports_test"/>
+		<echo message="${workdir}/war/reports_test deleted"/>
+		<delete dir="${workdir}/war/WEB-INF/classes/org/esblink/test"/>
+		<echo message="${workdir}/war/WEB-INF/classes/org/esblink/test deleted"/>
+		<delete dir="${workdir}/war/WEB-INF/classes/com/gof"/>
+		<echo message="${workdir}/war/WEB-INF/classes/com/gof deleted"/>
+		<delete dir="${workdir}/war/WEB-INF/classes/WEB-INF"/>
+		<echo message="${workdir}/war/WEB-INF/classes/WEB-INF deleted"/>
+	</target>
+	
+	<target name="cleanTomcat">		 
+			<delete dir="${tomcat.home}/work/Catalina/localhost/${ant.project.name}"/>
+			<delete dir="${tomcat.home}/webapps/${ant.project.name}"/>
+			<delete dir="${tomcat.home}/webapps/${ant.project.name}.war"/>
+	</target>
+	
+    <!--svn本身需要的运行库 
+    <path id="svnant.lib">
+        <pathelement location="${svnjavahl.jar}"/>
+        <pathelement location="${svnant.jar}"/>
+        <pathelement location="${svnClientAdapter.jar}"/>
+    </path>
+    -->
+   
+    <!--项目的classpath库 -->
+    <path id="project.classpath">
+        <pathelement location="${workdir}/war/WEB-INF/classes"/>
+        <fileset dir="${workdir}/war/WEB-INF/lib"/>
+    	<fileset dir="${workdir}/build/lib"/>
+    </path>
+	<path id="datanucleus.path">
+		<pathelement location="${workdir}/war/WEB-INF/classes"/>
+			<fileset dir="${workdir}/war/WEB-INF/lib">
+				<include name="*.jar"/>
+			</fileset>
+			<fileset dir="${workdir}/build/lib"/>
+			
+			
+	</path>
+	
+	
+    <!--清理项目任务(干掉下载目录，tomcat原来的部署文件) -->
+    <target name="clear">       
+        <delete dir="${tomcat.home}/work/Catalina/localhost/${ant.project.name}"/>
+        <delete dir="${tomcat.home}/webapps/${ant.project.name}"/>
+        <delete dir="${tomcat.home}/webapps/${ant.project.name}.war"/>
+    </target>
+	<target name="enhance_class" depends="compile" description="Performs enhancement on compiled data classes.">
+		<taskdef name="datanucleusenhancer" classpathref="datanucleus.path" classname="org.datanucleus.enhancer.tools.EnhancerTask"/>
+		<datanucleusenhancer classpathref="datanucleus.path" failonerror="false" api="JPA" persistenceUnit="transactions-optional"></datanucleusenhancer>
+	</target>
+    <!-- load the svn task -->
+    <!--svn同步任务	
+    <taskdef name="svn" classname="org.tigris.subversion.svnant.SvnTask" classpathref="svnant.lib"/>
+    <target name="svn" depends="clear">
+        <mkdir dir="${workdir}"/>
+        <svn username="${svn.user}" password="${svn.passwd}" javahl="false" svnkit="true">
+            <checkout url="${urlRepos}" revision="HEAD"  destPath="${workdir}"/>
+        </svn>
+    </target>
+    -->
+	<!-- svn升级 
+	<target name="svn_u">
+		<echo message="${workdir} update start"/>
+        <mkdir dir="${workdir}"/>
+        <svn username="${svn.user}" password="${svn.passwd}" javahl="false" svnkit="true">
+            <checkout url="${urlRepos}" revision="HEAD"  destPath="${workdir}"/>
+        </svn>
+    </target>
+    -->
+    <!--编译-->
+    <target name="compile" depends="clean"  description="======compile project======">
+        <echo message="compile==========>${ant.project.name}: ${ant.file}"/>
+    	<echo message ="Java Version: ${ant.java.version}"/> 
+    	<echo message ="Java Home: ${java.home}"/> 
+        <mkdir dir="${workdir}/war/WEB-INF/classes"/>        
+        <copy includeemptydirs="false" todir="${workdir}/war/WEB-INF/classes">
+            <fileset dir="${workdir}/src" excludes="**/*.launch, **/*.java"/>
+        </copy>
+    	<copyfile src="${workdir}/src-jsptag/META-INF/app-tags.tld" dest="${workdir}/war/WEB-INF/classes/META-INF/app-tags.tld"/>
+    	  <copy includeemptydirs="false" todir="${workdir}/war/WEB-INF/classes">
+            <fileset dir="${workdir}/resources">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    	<!--
+        <copy includeemptydirs="false" todir="${workdir}/war/WEB-INF/classes">
+            <fileset dir="${workdir}/test">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="${build.dir}">
+            <fileset dir="${java.config}" excludes="**/*.launch, **/*.java"/>
+        </copy>-->
+    	<javac encoding="utf-8"  debug="true" debuglevel="${debuglevel}" destdir="${workdir}/war/WEB-INF/classes" source="${source}" target="${target}" includeantruntime="on">
+    		<src path="${workdir}/src"/>
+    		<src path="${workdir}/src-common"/>
+    		<src path="${workdir}/src-common-domain"/>
+        	<src path="${workdir}/src-jsptag"/>
+    		<src path="${workdir}/src_ws"/>
+    		<classpath>
+	        	<path refid="project.classpath"/>	        	
+			</classpath>   
+    	</javac>
+        <javac encoding="UTF8" debug="true" debuglevel="${debuglevel}" destdir="${workdir}/war/WEB-INF/classes" source="${source}" target="${target}" 
+        					includejavaruntime="true" includeantruntime="on">
+            <src path="${workdir}/src"/>
+            <!--<exclude name="config/"/>-->
+            <classpath>
+            	<path refid="project.classpath"/>            	 
+			</classpath>              	
+        </javac>
+    	  <!--           
+        <javac encoding="utf-8"  debug="true" debuglevel="${debuglevel}" destdir="${workdir}/war/WEB-INF/classes" source="${source}" target="${target}" includeantruntime="on">
+          <src path="${workdir}/test"/>
+        	<classpath>
+            	<path refid="project.classpath"/>            
+			</classpath>   
+        </javac>
+        -->
+    </target>
+	
+	
+	
+	
+	
+	
+	
+	
+	<target name="jar-esblink-module-auth">
+     	<delete file="${workdir}/build/bin/esblink-gae-module-auth.jar"/>
+     	<jar destfile="${workdir}/build/bin/esblink-gae-module-auth.jar" includes="org/esblink/module/auth/**"  basedir="${workdir}/war/WEB-INF/classes">
+			<manifest>
+				<attribute name="Main-class" value="Main" />
+				<attribute name="Version" value="${version.auth}" />
+			</manifest>
+		</jar>
+     </target>
+	<target name="jar-esblink-module-framework">
+     	<delete file="${workdir}/build/bin/esblink-gae-module-framework.jar"/>
+     	<jar destfile="${workdir}/build/bin/esblink-gae-module-framework.jar" includes="org/esblink/module/framework/**"  basedir="${workdir}/war/WEB-INF/classes">
+			<manifest>
+				<attribute name="Main-class" value="Main" />
+				<attribute name="Version" value="${version.framework}" />
+			</manifest>
+		</jar>
+     </target>
+	<target name="jar-esblink-module-loginmgmt">
+     	<delete file="${workdir}/build/bin/esblink-gae-module-loginmgmt.jar"/>
+     	<jar destfile="${workdir}/build/bin/esblink-gae-module-loginmgmt.jar" includes="org/esblink/module/loginmgmt/**"  basedir="${workdir}/war/WEB-INF/classes">
+			<manifest>
+				<attribute name="Main-class" value="Main" />
+				<attribute name="Version" value="${version.loginmgmt}" />
+			</manifest>
+		</jar>
+     </target>
+	<target name="jar-esblink-module-organization">
+     	<delete file="${workdir}/build/bin/esblink-gae-module-organization.jar"/>
+     	<jar destfile="${workdir}/build/bin/esblink-gae-module-organization.jar" includes="org/esblink/module/organization/**"  basedir="${workdir}/war/WEB-INF/classes">
+			<manifest>
+				<attribute name="Main-class" value="Main" />
+				<attribute name="Version" value="${version.organization}" />
+			</manifest>
+		</jar>
+     </target>
+	<target name="jar-esblink-module-basedata">
+     	<delete file="${workdir}/build/bin/esblink-gae-basedata.jar"/>
+     	<jar destfile="${workdir}/build/bin/esblink-gae-basedata.jar" includes="org/esblink/module/basedata/**"  basedir="${workdir}/war/WEB-INF/classes">
+			<manifest>
+				<attribute name="Main-class" value="Main" />
+				<attribute name="Version" value="${version.basedata}" />
+			</manifest>
+		</jar>
+     </target>
+	<target name="jar-esblink-basedata-ws">
+	     	<delete file="${workdir}/build/bin/esblink-gae-basedata_ws.jar"/>
+	     	<jar destfile="${workdir}/build/bin/esblink-gae-basedata_ws.jar" includes="org/esblink/ws_basedata/**"  basedir="${workdir}/war/WEB-INF/classes">
+				<manifest>
+					<attribute name="Main-class" value="Main" />
+					<attribute name="Version" value="${version.basedata_ws}" />
+				</manifest>
+			</jar>
+	     </target>
+	<target name="jar-esblink-common">
+		<!--
+		<delete file="${workdir}/war/WEB-INF/classes/org/esblink/common/base/BaseDomain.class"/>
+		<delete file="${workdir}/war/WEB-INF/classes/org/esblink/common/base/BaseEntity.class"/>
+		<echo message="${workdir}/war/WEB-INF/classes/org/esblink/common/base/(BaseDomain.class/BaseEntity.class) deleted"/>
+		-->
+		<delete file="${workdir}/war/WEB-INF/classes/org/esblink/common/base/domain/BaseModule.class"/>
+		<delete file="${workdir}/war/WEB-INF/classes/org/esblink/common/base/domain/BaseRole.class"/>
+		<delete file="${workdir}/war/WEB-INF/classes/org/esblink/common/base/domain/BaseUser.class"/>
+		<echo message="${workdir}/war/WEB-INF/classes/org/esblink/common/base/domain/(BaseModule.class/BaseRole.class/BaseUser.class) deleted"/>
+     	<delete file="${workdir}/build/bin/esblink-gae-common.jar"/>
+     	<jar destfile="${workdir}/build/bin/esblink-gae-common.jar" includes="org/esblink/common/**"  basedir="${workdir}/war/WEB-INF/classes">
+			<manifest>
+				<attribute name="Main-class" value="Main" />
+				<attribute name="Version" value="${version.common}" />
+			</manifest>
+		</jar>
+     </target>
+	
+	<target name="jar-esblink-jsptag">
+	     	<delete file="${workdir}/build/bin/esblink-gae-jsptag.jar"/>
+	     	<jar destfile="${workdir}/build/bin/esblink-gae-jsptag.jar" includes="org/esblink/jsptag/**,**/app-tags.tld"  basedir="${workdir}/war/WEB-INF/classes">
+				<manifest>
+					<attribute name="Main-class" value="Main" />
+					<attribute name="Version" value="${version.jsptag}" />
+				</manifest>
+			</jar>
+	     </target>
+	
+	
+	<target name="jar" depends="enhance_class,jar-esblink-module-basedata,jar-esblink-module-auth,jar-esblink-module-framework,jar-esblink-module-loginmgmt,jar-esblink-module-organization,jar-esblink-basedata-ws,jar-esblink-common,jar-esblink-jsptag">
+	</target>
+	
+	
+	<!--压缩，打包-->
+    <target name="war" depends="cleanTest" description="======compress j2ee war file======">
+        <mkdir dir="${workdir}"/>
+        <!--compress j2ee war file-->
+    	<delete file="${workdir}/${ant.project.name}.war"/>
+        <war destfile="${workdir}/${ant.project.name}.war" webxml="${workdir}/war/WEB-INF/web.xml">
+            <fileset dir="${workdir}/war"/>
+            <classes dir="${workdir}/war/WEB-INF/classes"/>
+           
+        </war>
+     </target>
+	
+    <!--shutdowntomcat-->
+    <target name="shutdowntomcat" description="========shutdowntomcat===========">
+        <exec executable="${tomcat.home}/bin/shutdown.bat" failonerror="false"></exec>
+        <sleep seconds="10"/>
+    </target>
+    <!--startuptomcat-->
+    <target name="startuptomcat" description="========startuptomcat===========">
+        <sleep seconds="5"/>
+        <exec executable="${tomcat.home}/bin/startup.bat" failonerror="false"></exec>
+    </target>
+    <!--部署到tomcat下面克-->
+    <target name="deploy" depends="war">
+    	<echo message="deploy ${war.file} to ${tomcat.home}/webapps"/>
+        <copy file="${war.file}" todir="${tomcat.home}/webapps"/>
+    </target>
+    <!--全自动无敌部署，启动关闭tomcat-->
+    <target name="auto" depends="shutdowntomcat,deploy,startuptomcat">
+        <echo message="DONE!!!!"/>
+    </target>
+    
+    <property name="findbugs.home" value="${workdir}/build/lib-findbugs" />
+	<path id="findbugs.path">
+		<fileset dir="${findbugs.home}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	<property name="report"   value="${workdir}/docs/report"/> 
+	<property name="test.xml" value="${report}/test-xml"/> 
+	<property name="test.html" value="${report}/test-html"/>
+	<property name="findbugs.html" value="${report}/findbugs-html"/>
+	<property name="findbugs.xml" value="${report}/findbugs-xml"/>  
+	
+	<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpathref="findbugs.path" /> 	
+
+	<target name="findbugs">
+	<echo message="==========begin to scan ${project.name} with Findbugs!==========" />
+		<mkdir dir="${findbugs.html}"/>
+		<mkdir dir="${findbugs.xml}"/> 
+		<findbugs home="${findbugs.home}" output="xml" outputFile="${findbugs.xml}/findbugs.xml" reportlevel="medium" jvmargs="-Xmx512m" >
+			<class location="${workdir}/war/WEB-INF/classes" />
+			<auxClasspath>				
+				<fileset dir="${workdir}/build/lib-findbugs">
+					<include name="*.jar" />
+				</fileset>
+			</auxClasspath>
+			<auxClasspath>
+				<fileset dir="${workdir}/war/WEB-INF/lib">
+					<include name="*.jar" />
+				</fileset>
+			</auxClasspath>
+			<auxClasspath>				
+				<fileset dir="${workdir}/build/lib">
+					<include name="*.jar" />
+				</fileset>
+			</auxClasspath>
+			
+			<sourcePath path="src" />
+			<!--
+			<sourcePath path="${workdir}/test/org/esblink/test/module/TestPlace.java" />
+			-->	
+		</findbugs>
+		
+		<echo message="==========scan ${project.name} with Findbugs over!==========" />
+	</target>
+    
+    <target name="test"> 
+            <mkdir dir="${test.xml}"/> 
+            <mkdir dir="${test.html}"/> 		      
+            <junit printsummary="yes" haltonfailure="no">                    
+            	     <classpath refid="project.classpath"/>              	    
+                   <formatter type="xml"/> 
+                   <batchtest fork="yes" todir="${test.xml}"> 
+                          <fileset dir="${workdir}/test" includes="**/test*.java"/> 
+                   </batchtest> 
+            </junit> 
+            <junitreport todir="${test.html}"> 
+                   <fileset dir="${test.xml}"> 
+                          <include name="*.xml"/> 
+                   </fileset> 
+                   <report format="frames" todir="${test.html}"/> 
+            </junitreport> 
+     </target>
+</project>

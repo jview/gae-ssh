@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	
+	<package name="web-default" extends="struts-default">
+    	<result-types>
+    		<result-type name="json" class="org.esblink.common.base.interceptor.AsuraJSONResult"/>
+    		<result-type name="jsontree" class="org.esblink.common.base.interceptor.JSONTreeResult"/>
+    		<result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult"/>
+    		<result-type name="jsonexception" class="org.esblink.common.base.interceptor.JsonErrorExceptionResult"/>
+    		<result-type name="httpforward" class="org.esblink.common.base.interceptor.HttpForwardResult"/>
+    	</result-types>
+    	<interceptors>
+			
+    		<interceptor name="path" class="org.esblink.common.base.interceptor.PathInterceptor"/>
+    		<interceptor name="module" class="org.esblink.common.base.interceptor.ModuleInterceptor"/>
+    		<!---->
+    		<interceptor name="security" class="org.esblink.common.base.interceptor.SecurityInterceptor"/>
+    		
+			<interceptor name="error" class="org.esblink.common.base.interceptor.ErrorInterceptor"/>
+    		<interceptor name="json" class="org.apache.struts2.json.JSONInterceptor"/>
+    		<interceptor-stack name="webStack">
+    			<interceptor-ref name="exception"/>
+                <interceptor-ref name="alias"/>
+                <interceptor-ref name="servletConfig"/>
+                <interceptor-ref name="prepare"/>
+                <interceptor-ref name="chain"/>
+                <interceptor-ref name="scopedModelDriven"/>
+                <interceptor-ref name="modelDriven"/>
+                <interceptor-ref name="fileUpload">
+                	<param name="maximumSize">20480000</param>
+                </interceptor-ref>
+                <interceptor-ref name="staticParams"/>
+                <interceptor-ref name="params" />
+                <interceptor-ref name="conversionError"/>
+                <interceptor-ref name="validation" />
+                <interceptor-ref name="error" />
+    			<interceptor-ref name="i18n"/>
+    			
+    			<interceptor-ref name="path"/>
+    			
+    			<interceptor-ref name="module"/>
+    			<!-- -->
+    			<interceptor-ref name="security"/>
+    			
+    		</interceptor-stack>
+    	</interceptors>
+    	<default-interceptor-ref name="webStack"/>
+    	<global-results>
+    		<result name="jsonlogin" type="jsonexception"></result>
+    		<result name="login" type="httpforward">/loginmgmt/index.action</result>
+    		<result name="jlogin" type="httpforward">/loginmgmt/jlogin.action</result>
+    		<result name="forbidden" type="httpforward">/loginmgmt/forbidden.action</result>
+    		<result name="error" type="jsonexception"></result>
+    	</global-results>
+    </package>
+  
+</struts>
