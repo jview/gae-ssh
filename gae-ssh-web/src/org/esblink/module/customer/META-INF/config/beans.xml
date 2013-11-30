@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+    <bean id="contactInfoBiz" class="org.esblink.module.customer.biz.ContactInfoBiz">
+        <property name="contactInfoDao" ref="contactInfoDao"/>
+    </bean>
+    <bean id="contactInfoAction" class="org.esblink.module.customer.action.ContactInfoAction" scope="prototype">
+        <property name="contactInfoBiz" ref="contactInfoBiz"/>
+    </bean>
+    <bean id="contactInfoServlet" class="org.esblink.module.customer.servlet.ContactInfoServlet">
+        <property name="contactInfoBiz" ref="contactInfoBiz"/>
+    </bean>
+    <bean id="contactInfoDao" class="org.esblink.module.customer.dao.ContactInfoDao">
+    </bean>
+    
+    <bean id="userReportBiz" class="org.esblink.module.customer.biz.UserReportBiz">
+        <property name="userReportDao" ref="userReportDao"/>
+    </bean>
+    <bean id="userReportAction" class="org.esblink.module.customer.action.UserReportAction" scope="prototype">
+        <property name="userReportBiz" ref="userReportBiz"/>
+    </bean>
+    <bean id="userReportDao" class="org.esblink.module.customer.dao.UserReportDao">
+    </bean>
+</beans>

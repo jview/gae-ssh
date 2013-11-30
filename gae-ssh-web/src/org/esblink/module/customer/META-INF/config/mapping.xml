@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="org.esblink.customer.domain" auto-import="false">
+    <class name="ContactInfo" table="tc_contact_info">
+        <id name="id" type="java.lang.Long">
+            <column name="id" precision="10" not-null="true"/>
+            <generator class="sequence">
+                <param name="sequence">tc_contact_info_id_seq</param>
+            </generator>
+        </id>
+        <property name="sysType" type="java.lang.String">
+            <column name="sys_type" length="100"/>
+        </property>
+        <property name="userName" type="java.lang.String">
+            <column name="user_name" length="200"/>
+        </property>
+        <property name="businessName" type="java.lang.String">
+            <column name="business_name" length="200"/>
+        </property>
+        <property name="email" type="java.lang.String">
+            <column name="email" length="100"/>
+        </property>
+        <property name="phone" type="java.lang.String">
+            <column name="phone" length="100"/>
+        </property>
+        <property name="mobile" type="java.lang.String">
+            <column name="mobile" length="100"/>
+        </property>
+        <property name="country" type="java.lang.String">
+            <column name="country" length="100"/>
+        </property>
+        <property name="contactType" type="java.lang.String">
+            <column name="contact_type" length="100"/>
+        </property>
+        <property name="comment" type="java.lang.String">
+            <column name='"comment"' length="3000"/>
+        </property>
+        <property name="ifDel" type="java.lang.Long">
+            <column name="if_del" precision="10" not-null="true"/>
+        </property>
+        <property name="status" type="java.lang.Long">
+            <column name="status" precision="10" not-null="true"/>
+        </property>
+        <property name="createUser" type="java.lang.Long">
+            <column name="create_user" precision="10"/>
+        </property>
+        <property name="createDate" type="java.util.Date">
+            <column name="create_date" length="13"/>
+        </property>
+        <property name="modifyUser" type="java.lang.Long">
+            <column name="modify_user" precision="10"/>
+        </property>
+        <property name="modifyDate" type="java.util.Date">
+            <column name="modify_date" length="13"/>
+        </property>
+        <property name="remark" type="java.lang.String">
+            <column name="remark" length="3000"/>
+        </property>
+    </class>
+</hibernate-mapping>

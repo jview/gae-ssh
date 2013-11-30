@@ -1,0 +1,26 @@
+<!-- Indices written at Sat, 30 Nov 2013 22:27:23 CST -->
+
+<datastore-indexes>
+
+    <!-- Used 1 time in query history -->
+    <datastore-index kind="Module" ancestor="false" source="auto">
+        <property name="code_0" direction="asc"/>
+        <property name="status" direction="asc"/>
+        <property name="sort" direction="asc"/>
+    </datastore-index>
+
+    <!-- Used 14 times in query history -->
+    <datastore-index kind="Module" ancestor="false" source="auto">
+        <property name="parent_id" direction="asc"/>
+        <property name="status" direction="asc"/>
+        <property name="sort" direction="asc"/>
+    </datastore-index>
+
+    <!-- Used 1 time in query history -->
+    <datastore-index kind="Module" ancestor="false" source="auto">
+        <property name="status" direction="asc"/>
+        <property name="type_flag" direction="asc"/>
+        <property name="sort" direction="asc"/>
+    </datastore-index>
+
+</datastore-indexes>

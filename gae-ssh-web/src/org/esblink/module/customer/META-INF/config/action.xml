@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+    <package name="customer" namespace="/customer" extends="web-default">
+        <action name="contactInfo" class="forwardAction">
+            <result>/pages/customer/contactInfo.jsp</result>
+        </action>
+        <action name="saveContactInfo" class="contactInfoAction" method="saveContactInfo">
+            <result type="json" name="success"/>
+        </action>
+        <action name="saveContactInfoJsp" class="contactInfoAction" method="saveContactInfoJsp">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findContactInfo" class="contactInfoAction" method="findContactInfo">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findByContactInfo" class="contactInfoAction" method="findByContactInfo">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findPageByContactInfo" class="contactInfoAction" method="findPageByContactInfo">
+            <result type="json" name="success"/>
+        </action>
+        <action name="deleteContactInfos" class="contactInfoAction" method="deleteContactInfos">
+            <result type="json" name="success"/>
+        </action>
+        <action name="exportContactInfo" class="contactInfoAction" method="exportContactInfo">
+            <result type="stream">
+                <param name="contentType">application/vnd.ms-excel</param>
+                <param name="inputName">stream</param>
+                <param name="contentDisposition">attachment;filename="ContactInfo.xls"</param>
+                <param name="bufferSize">4096</param>
+            </result>
+        </action>
+        
+        <action name="userReport" class="forwardAction">
+            <result>/pages/customer/userReport.jsp</result>
+        </action>
+        <action name="saveUserReport" class="userReportAction" method="saveUserReport">
+            <result type="json" name="success"/>
+        </action>
+        <action name="saveUserReportJsp" class="userReportAction" method="saveUserReportJsp">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findUserReport" class="userReportAction" method="findUserReport">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findByUserReport" class="userReportAction" method="findByUserReport">
+            <result type="json" name="success"/>
+        </action>
+        <action name="findPageByUserReport" class="userReportAction" method="findPageByUserReport">
+            <result type="json" name="success"/>
+        </action>
+        <action name="deleteUserReports" class="userReportAction" method="deleteUserReports">
+            <result type="json" name="success"/>
+        </action>
+        <action name="exportUserReport" class="userReportAction" method="exportUserReport">
+            <result type="stream">
+                <param name="contentType">application/vnd.ms-excel</param>
+                <param name="inputName">stream</param>
+                <param name="contentDisposition">attachment;filename="UserReport.xls"</param>
+                <param name="bufferSize">4096</param>
+            </result>
+        </action>
+    </package>
+</struts>
