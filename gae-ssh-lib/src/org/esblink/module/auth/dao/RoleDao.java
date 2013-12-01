@@ -14,36 +14,6 @@ import com.esblink.dev.util.DbInfo;
 
 //@Service("roleDao")
 public class RoleDao extends BaseDAO<Role> implements IRoleDao {
-
-    public List<UserRoleDeptDto> getUserRoleDept(final long userId, final long roleId) {
-//        return getHibernateTemplate().execute(new HibernateCallback<List<UserRoleDeptDto>>() {
-//            public List<UserRoleDeptDto> doInHibernate(Session session) throws HibernateException, SQLException {
-//                String SQL = "select urd.DEPT_CODE, d.dept_name, urd.INHERITED_FLG from ts_user_role_dept urd inner join " +
-//                		"tm_department d on urd.dept_code = d.dept_code where urd.user_id = ? and urd.role_id = ?";
-//                SQLQuery sqlQuery = session.createSQLQuery(SQL);
-//                sqlQuery.addScalar("DEPT_CODE", new StringType());
-//                sqlQuery.addScalar("dept_name", new StringType());
-//                sqlQuery.addScalar("INHERITED_FLG", new ByteType());
-//                sqlQuery.setLong(0, userId);
-//                sqlQuery.setLong(1, roleId);
-//
-//                List<?> tempList = sqlQuery.list();
-//
-//                List<UserRoleDeptDto> retList = new ArrayList<UserRoleDeptDto>();
-//                for (Object temp : tempList) {
-//                    Object[] at = (Object[]) temp;
-//                    UserRoleDeptDto dto = new UserRoleDeptDto();
-//                    dto.setDeptCode((String) at[0]);
-//                    dto.setDeptName((String) at[1]);
-//                    dto.setInherited((Byte) at[2]);
-//                    retList.add(dto);
-//                }
-//                Collections.sort(retList, ComparatUtil.UserRoleDeptDtoComparator);
-//                return retList;
-//            }
-//        });
-    	return null;
-    }
     
     @SuppressWarnings("unchecked")
 	public List<Role> findRolesByName(String roleName) {
@@ -58,7 +28,8 @@ public class RoleDao extends BaseDAO<Role> implements IRoleDao {
 //			return null;
 			roleName=roleName.trim();
 			QueryObj queryObj = new QueryObj(-1, -1, null, false);
-			queryObj.setQueryObject("name", roleName);
+//			queryObj.setQueryObject("name", roleName);
+			queryObj.setQueryObject("_like_name", roleName+"%");
 			Collection<Role> roleList=this.findBy(queryObj);
 			List<Role> rList=new ArrayList<Role>();
 			rList.addAll(roleList);
@@ -153,19 +124,7 @@ public class RoleDao extends BaseDAO<Role> implements IRoleDao {
 //		});
 	}
 
-	@SuppressWarnings("unchecked")
-    public List<Object[]> getUserRoleIds(final long userId) {
-//        return getHibernateTemplate().execute(new HibernateCallback<List<Object[]>>() {
-//            public List<Object[]> doInHibernate(Session session) throws HibernateException, SQLException {
-//                SQLQuery sqlQuery = session.createSQLQuery("select role_id, UNUSED_TM from ts_user_role where user_id = ?");
-//                sqlQuery.addScalar("role_id", Hibernate.LONG);
-//                sqlQuery.addScalar("UNUSED_TM", Hibernate.DATE);
-//                sqlQuery.setLong(0, userId);
-//                return sqlQuery.list();
-//            }
-//        });
-    	return null;
-    }
+
     
     @SuppressWarnings("unchecked")
 	public List<Long> findRoleModuleIds(final Long roleId) {
@@ -182,36 +141,7 @@ public class RoleDao extends BaseDAO<Role> implements IRoleDao {
     	return null;
 	}
 
-    public List<UserRoleDto> loadUserRole(final long userId) {
-//        return getHibernateTemplate().execute(new HibernateCallback<List<UserRoleDto>>() {
-//            @SuppressWarnings("unchecked")
-//            public List<UserRoleDto> doInHibernate(Session session) throws HibernateException, SQLException {
-//                String SQL = "select r.role_id, r.role_name, r.role_desc, ur.is_default, ur.UNUSED_TM from ts_user_role ur inner join "
-//                        + "ts_role r on ur.role_id = r.role_id where ur.user_id = ?";
-//                SQLQuery sqlQuery = session.createSQLQuery(SQL);
-//                sqlQuery.addScalar("role_id", new LongType());
-//                sqlQuery.addScalar("role_name", new StringType());
-//                sqlQuery.addScalar("role_desc", new StringType());
-//                sqlQuery.addScalar("is_default", new ByteType());
-//                sqlQuery.addScalar("UNUSED_TM", new DateType());
-//                sqlQuery.setLong(0, userId);
-//                List<Object[]> result = sqlQuery.list();
-//                List<UserRoleDto> queryRs = new ArrayList<UserRoleDto>();
-//                for(Object[] tmp : result){
-//                    UserRoleDto userEmp = new UserRoleDto();
-//                    userEmp.setUserId(userId);
-//                    userEmp.setRoleId((Long)tmp[0]);
-//                    userEmp.setRoleName((String)tmp[1]);
-//                    userEmp.setDescription((String)tmp[2]);
-//                    userEmp.setIsDefault((Byte)tmp[3]);
-//                    userEmp.setUnusedTm((Date)tmp[4]);
-//                    queryRs.add(userEmp);
-//                }
-//                return queryRs;
-//            }
-//        });
-    	return null;
-    }
+   
     
 	public List<Role> loadByIds(List<Long> ids) {
 		if (ids.size() == 0)
@@ -223,32 +153,5 @@ public class RoleDao extends BaseDAO<Role> implements IRoleDao {
 		return null;
 	}
 
-	public void saveUserRoleDept(final long userId, final long roleId, final List<UserRoleDeptDto> userRoleDeptList) {
-//		getHibernateTemplate().execute(new HibernateCallback<Object>() {
-//			public Object doInHibernate(Session session)
-//					throws HibernateException, SQLException {
-//			    String deleteSQL = "delete from ts_user_role_dept where user_id = ? and role_id = ?";
-//				SQLQuery delete = session.createSQLQuery(deleteSQL);
-//				delete.setLong(0, userId);
-//				delete.setLong(1, roleId);
-//				delete.executeUpdate();
-//				
-//                if (userRoleDeptList == null || userRoleDeptList.size() == 0) {
-//                    return null;
-//                }
-//                String insertSQL = "insert into ts_user_role_dept(USER_ID ,ROLE_ID ,DEPT_CODE ,INHERITED_FLG) values(?,?,?,?)";
-//                SQLQuery insert = session.createSQLQuery(insertSQL);
-//                for (UserRoleDeptDto tmp : userRoleDeptList) {
-//                    insert.setLong(0, userId);
-//                    insert.setLong(1, roleId);
-//                    insert.setString(2, tmp.getDeptCode());
-//                    insert.setByte(3, tmp.getInherited());
-//                    insert.executeUpdate();
-//                }
-//				return null;
-//			}
-//		});
-		
 
-	}
 }

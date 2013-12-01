@@ -322,6 +322,7 @@ public class InitBiz implements IInitBiz {
 			ur.setIfDel(0l);
 			ur.setUnusedTm(DateUtils.reduceDay(new Date(), -100l));
 			this.userRoleBiz.saveUserRole(ur);
+			log4.info("------saveUserRole--");
 		}
 	}
 

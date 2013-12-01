@@ -14,7 +14,6 @@ import java.util.regex.Pattern;
 import org.esblink.common.base.IPage;
 import org.esblink.common.base.Page;
 import org.esblink.common.base.QueryObj;
-import org.esblink.common.base.QueryParam;
 import org.esblink.common.base.domain.IUser;
 import org.esblink.common.base.domain.UserStatus;
 import org.esblink.common.base.gae.BaseBIZ;
@@ -27,6 +26,7 @@ import org.esblink.module.auth.dao.IUserDao;
 import org.esblink.module.auth.dao.IUserEmpDao;
 import org.esblink.module.auth.domain.User;
 import org.esblink.module.auth.domain.UserEmp;
+import org.esblink.module.auth.domain.UserRole;
 import org.esblink.module.auth.util.ComparatUtil;
 import org.esblink.module.auth.util.DepartmentUtil;
 import org.esblink.module.basedata.util.Sysconfigs;
@@ -50,6 +50,8 @@ public class UserBiz extends BaseBIZ implements IUserBiz {
 //	@Resource(name="roleDao")
 	private IRoleDao roleDao;
 
+	private IUserRoleBiz userRoleBiz;
+	private IUserRoleDeptBiz userRoleDeptBiz;
 	
 	@Override
 	public List<UserEmp> findByQuery(QueryObj queryObj, String query) {
@@ -149,6 +151,17 @@ public class UserBiz extends BaseBIZ implements IUserBiz {
 
 	public void setUserDao(IUserDao userDao) {
 		this.userDao = userDao;
+	}
+
+	
+	public void setUserRoleBiz(IUserRoleBiz userRoleBiz) {
+		this.userRoleBiz = userRoleBiz;
+	}
+	
+	
+
+	public void setUserRoleDeptBiz(IUserRoleDeptBiz userRoleDeptBiz) {
+		this.userRoleDeptBiz = userRoleDeptBiz;
 	}
 
 	public User findUserByName(String username) {
@@ -393,9 +406,9 @@ public class UserBiz extends BaseBIZ implements IUserBiz {
 			this.userDao.update(u);
 
 			// 删除用户时，清除用户的缓存。
-			List<Object[]> roleIdList = this.roleDao.getUserRoleIds(u.getId());
-			for (Object[] rs : roleIdList) {
-				Long roleId = (Long) rs[0];
+			List<UserRole> roleIdList = this.userRoleBiz.getUserRoleIds(u.getId());
+			for (UserRole rs : roleIdList) {
+				Long roleId = rs.getRoleId();
 				if (roleId != null)
 					UserCacheBiz.removeData(u.getId(), roleId);
 			}
@@ -425,7 +438,7 @@ public class UserBiz extends BaseBIZ implements IUserBiz {
 		if (!UserStatus.ROOT.equals(super.getCurrentUser().getStatus())) {
 			long currentUserId = super.getCurrentUser().getId();
 			long currentRoleId = getCurrentUser().getRoleId();
-			List<UserRoleDeptDto> urdl = this.roleDao.getUserRoleDept(currentUserId, currentRoleId);
+			List<UserRoleDeptDto> urdl = this.userRoleDeptBiz.getUserRoleDept(currentUserId, currentRoleId);
 			Map<String, Byte> m = new HashMap<String, Byte>();
 			for(UserRoleDeptDto dto: urdl){
 				m.put(dto.getDeptCode(), dto.getInherited());
@@ -440,14 +453,14 @@ public class UserBiz extends BaseBIZ implements IUserBiz {
             }
 		}
 
-		this.roleDao.saveUserRoleDept(userId, roleId, userRoleDeptList);
+		this.userRoleDeptBiz.saveUserRoleDept(userId, roleId, userRoleDeptList);
 	}
 
 	public List<UserRoleDeptDto> getUserRoleDept(String empCode, long roleId) {
 		User user = this.userDao.loadByEmpCode(empCode);
 		if (user == null)
 			return new ArrayList<UserRoleDeptDto>(0);
-		return this.roleDao.getUserRoleDept(user.getId(), roleId);
+		return this.userRoleDeptBiz.getUserRoleDept(user.getId(), roleId);
 	}
 
 	public void savePastAuth(String fromEmpCode, String[] toEmpCodes) {
@@ -549,17 +562,17 @@ public class UserBiz extends BaseBIZ implements IUserBiz {
 
 	private Map<Long, UserAuthDto> getUserAuth(User user) {
 		Map<Long, UserAuthDto> userAuth = new HashMap<Long, UserAuthDto>();
-		List<Object[]> rs = this.roleDao.getUserRoleIds(user.getId());
-		for (Object[] os : rs) {
+		List<UserRole> rsList = this.userRoleBiz.getUserRoleIds(user.getId());
+		for (UserRole ur : rsList) {
 			UserAuthDto ua = new UserAuthDto();
 
-			Long roleId = (Long) os[0];
-			Date unusedTm = (Date) os[1];
-
+		
+			Long roleId=ur.getRoleId();
+			Date unusedTm = ur.getUnusedTm();
 			ua.setRoleId(roleId.longValue());
 			ua.setUnusedTm(unusedTm);
 
-			List<UserRoleDeptDto> urdl = this.roleDao.getUserRoleDept(user
+			List<UserRoleDeptDto> urdl = this.userRoleDeptBiz.getUserRoleDept(user
 					.getId(), roleId);
 			for (UserRoleDeptDto dto : urdl) {
 				ua.putDeptAuth(dto);

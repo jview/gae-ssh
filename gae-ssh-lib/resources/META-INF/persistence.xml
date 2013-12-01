@@ -21,6 +21,7 @@
         <class>org.esblink.module.auth.domain.Role</class>
         <class>org.esblink.module.auth.domain.User</class>
         <class>org.esblink.module.auth.domain.UserRole</class>
+        <class>org.esblink.module.auth.domain.UserRoleDept</class>
         
         <!-- organization -->
         <class>org.esblink.module.organization.domain.Department</class>

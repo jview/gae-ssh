@@ -1,5 +1,6 @@
 package org.esblink.module.auth.biz;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -10,8 +11,11 @@ import org.esblink.common.base.IPage;
 import org.esblink.common.base.QueryObj;
 import org.esblink.common.base.gae.BaseBIZ;
 import org.esblink.common.util.BeanUtils;
+import org.esblink.module.auth.action.dto.UserRoleDeptDto;
+import org.esblink.module.auth.action.dto.UserRoleDto;
 import org.esblink.module.auth.dao.IUserRoleDao;
 import org.esblink.module.auth.domain.UserRole;
+import org.esblink.module.auth.domain.UserRoleDept;
 import org.springframework.stereotype.Service;
 
 /**
@@ -28,11 +32,11 @@ import org.springframework.stereotype.Service;
  * *********************************************
  * </pre>
  */
-@Service("userRoleBiz")
+//@Service("userRoleBiz")
 public class UserRoleBiz extends BaseBIZ implements IUserRoleBiz {
 
 	// userRoleDao
-	@Resource(name="userRoleDao")
+//	@Resource(name="userRoleDao")
 	private IUserRoleDao userRoleDao;
 
 	public void setUserRoleDao(IUserRoleDao userRoleDao) {
@@ -88,13 +92,25 @@ public class UserRoleBiz extends BaseBIZ implements IUserRoleBiz {
 		}
 	}
 	
-	/**
-	 * 根据菜单栏moduleId查找关联的菜单
-	 * @param moduleId
-	 * @return
-	 */
-	public List<UserRole> findRecently(final Long moduleId) {
-		// TODO Auto-generated method stub
-		return userRoleDao.findRecently(moduleId);
+
+	
+	public List<UserRole> getUserRoleIds(final long userId){
+		List<UserRole> urList=this.userRoleDao.findUserRoleByUserOrRole(userId, null);
+		return urList;
+		
 	}
+	public List<UserRoleDto> loadUserRole(long userId){
+		List<UserRole> urList=this.userRoleDao.findUserRoleByUserOrRole(userId, null);
+		List<UserRoleDto> list = new ArrayList();
+		UserRoleDto urdDto = null;
+		for(UserRole urd:urList){
+			urdDto = new UserRoleDto(urd);
+			list.add(urdDto);
+		}
+		return list;
+	}
+	
+	
+
+	
 }

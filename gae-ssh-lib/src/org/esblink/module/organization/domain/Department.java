@@ -34,7 +34,8 @@ public class Department extends BaseEntity implements IDepartment {
 	
 	public void load(DepartmentDto dept){
 		this.setId(dept.getId());
-		this.code=dept.getDeptCode();
+		this.deptCode=dept.getDeptCode();
+		this.setCode(dept.getDeptCode());
 		this.deptName=dept.getDeptName();
 		this.parentCode=dept.getParentCode();
 		this.validDate=dept.getValidDate();
@@ -43,7 +44,8 @@ public class Department extends BaseEntity implements IDepartment {
 	}
 	private static final long serialVersionUID = 721167073139344002L;
 	@Basic
-	private String code;
+	@Column(name="dept_code")
+	private String deptCode;
 	@Basic
 	@Column(name="dept_name")
 	private String deptName;
@@ -98,7 +100,7 @@ public class Department extends BaseEntity implements IDepartment {
 	}
 
 	public void addChild(Department dept) {
-		dept.parentCode = code;
+		dept.parentCode = this.getCode();
 		dept.parent = this;
 		children.add(dept);
 	}
@@ -107,13 +109,7 @@ public class Department extends BaseEntity implements IDepartment {
 		return children;
 	}
 
-	public java.lang.String getCode() {
-		return code;
-	}
-
-	public void setCode(java.lang.String code) {
-		this.code = code;
-	}
+	
 
 	public java.lang.String getDeptName() {
 		return deptName;
@@ -187,10 +183,14 @@ public class Department extends BaseEntity implements IDepartment {
 		this.deleteFlg = deleteFlg;
 	}
 
-	public String getDeptCode() {
-		return this.code;
-	}
+	
 
+	public String getDeptCode() {
+		return deptCode;
+	}
+	public void setDeptCode(String deptCode) {
+		this.deptCode = deptCode;
+	}
 	public String getDescs() {
 		return descs;
 	}

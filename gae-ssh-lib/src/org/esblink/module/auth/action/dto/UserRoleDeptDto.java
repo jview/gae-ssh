@@ -1,6 +1,15 @@
 package org.esblink.module.auth.action.dto;
 
+import org.esblink.module.auth.domain.UserRoleDept;
+
 public class UserRoleDeptDto {
+	public UserRoleDeptDto(){
+		
+	}
+	public UserRoleDeptDto(UserRoleDept urd){
+		this.deptCode=urd.getDeptCode();
+		this.inherited=urd.getInheritedFlg().byteValue();
+	}
 
 	private String deptCode;
 	private String deptName;

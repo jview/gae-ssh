@@ -26,17 +26,17 @@ public interface IRoleDao extends IBaseDAO<Role> {
 	 * @param userId
 	 * @return
 	 */
-	List<Object[]> getUserRoleIds(final long userId);
+//	List<Object[]> getUserRoleIds(final long userId);
 
 	List<Role> loadByIds(List<Long> ids);
 	
 	List<Long> findRoleModuleIds(final Long roleId);
 	
-	List<UserRoleDto> loadUserRole(long userId);
+//	List<UserRoleDto> loadUserRole(long userId);
 	
-	void saveUserRoleDept(long userId, long roleId, List<UserRoleDeptDto> userRoleDeptList);
+//	void saveUserRoleDept(long userId, long roleId, List<UserRoleDeptDto> userRoleDeptList);
 
-	List<UserRoleDeptDto> getUserRoleDept(final long userId, final long roleId);
+//	List<UserRoleDeptDto> getUserRoleDept(final long userId, final long roleId);
 	
 	/**
 	 * 根据角色名称查找角色

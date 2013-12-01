@@ -6,14 +6,14 @@ import java.util.List;
 import org.esblink.common.base.IPage;
 import org.esblink.common.base.QueryObj;
 import org.esblink.common.base.gae.IBaseDAO;
-import org.esblink.module.auth.domain.UserRole;
+import org.esblink.module.auth.domain.UserRoleDept;
 
 /**
  * <pre>
  * *********************************************
  * Copyright esblink.net.
  * All rights reserved.
- * Description: UserRole DAO接口定义
+ * Description: UserRoleDept DAO接口定义
  * HISTORY
  * *********************************************
  *  ID   DATE           PERSON          REASON
@@ -22,11 +22,11 @@ import org.esblink.module.auth.domain.UserRole;
  * *********************************************
  * </pre>
  */
-public interface IUserRoleDao extends IBaseDAO<UserRole> {
+public interface IUserRoleDeptDao extends IBaseDAO<UserRoleDept> {
 
-	public Collection<UserRole> findBy(QueryObj queryObj);
+	public Collection<UserRoleDept> findBy(QueryObj queryObj);
 
-	public IPage<UserRole> findPageBy(QueryObj queryObj);
+	public IPage<UserRoleDept> findPageBy(QueryObj queryObj);
 	
 	/**
 	 * 根据用户或角色查询用户权限
@@ -34,6 +34,6 @@ public interface IUserRoleDao extends IBaseDAO<UserRole> {
 	 * @param roleId
 	 * @return
 	 */
-	public List<UserRole> findUserRoleByUserOrRole(final Long userId, final Long roleId);
+	public List<UserRoleDept> findUserRoleDeptByUserOrRole(final Long userId, final Long roleId);
 
 }

@@ -7,15 +7,14 @@ import org.esblink.common.base.IPage;
 import org.esblink.common.base.QueryObj;
 import org.esblink.common.base.gae.IBaseBIZ;
 import org.esblink.module.auth.action.dto.UserRoleDeptDto;
-import org.esblink.module.auth.action.dto.UserRoleDto;
-import org.esblink.module.auth.domain.UserRole;
+import org.esblink.module.auth.domain.UserRoleDept;
 
 /**
  * <pre>
  * *********************************************
  * Copyright esblink.net.
  * All rights reserved.
- * Description: UserRole BIZ接口定义
+ * Description: UserRoleDept BIZ接口定义
  * HISTORY
  * *********************************************
  *  ID   DATE           PERSON          REASON
@@ -24,22 +23,20 @@ import org.esblink.module.auth.domain.UserRole;
  * *********************************************
  * </pre>
  */
-public interface IUserRoleBiz extends IBaseBIZ {
+public interface IUserRoleDeptBiz extends IBaseBIZ {
 
-	public void saveUserRole(UserRole userRole);
+	public void saveUserRoleDept(UserRoleDept userRole);
 
-	public UserRole findUserRole(Long id);
+	public UserRoleDept findUserRoleDept(Long id);
 
-	public Collection<UserRole> findBy(UserRole userRole);
+	public Collection<UserRoleDept> findBy(UserRoleDept userRole);
 
-	public IPage<UserRole> findPageBy(QueryObj queryObj);
+	public IPage<UserRoleDept> findPageBy(QueryObj queryObj);
 
-	public void deleteUserRoles(String ids);
+	public void deleteUserRoleDepts(String ids);
 	
-	
-	
-	List<UserRole> getUserRoleIds(final long userId);
-	List<UserRoleDto> loadUserRole(long userId);
-	
+	public void saveUserRoleDept(long userId, long roleId, List<UserRoleDeptDto> userRoleDeptDeptList);
+
+	List<UserRoleDeptDto> getUserRoleDept(final long userId, final long roleId);
 
 }

@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import org.esblink.common.base.IPage;
 import org.esblink.common.base.QueryObj;
 import org.esblink.common.base.gae.BaseDAO;
-import org.esblink.module.auth.domain.UserRole;
+import org.esblink.module.auth.domain.UserRoleDept;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
  * *********************************************
  * Copyright esblink.net.
  * All rights reserved.
- * Description: UserRole DAO接口实现
+ * Description: UserRoleDept DAO接口实现
  * HISTORY
  * *********************************************
  *  ID   DATE           PERSON          REASON
@@ -28,21 +28,21 @@ import org.springframework.stereotype.Service;
  * </pre>
  */
 //@Service("userRoleDao")
-public class UserRoleDao extends BaseDAO<UserRole> implements IUserRoleDao {
-	private static final Logger	logger	= Logger.getLogger(UserRoleDao.class.getName());
-	public Collection<UserRole> findBy(QueryObj queryObj) {
+public class UserRoleDeptDao extends BaseDAO<UserRoleDept> implements IUserRoleDeptDao {
+	private static final Logger	logger	= Logger.getLogger(UserRoleDeptDao.class.getName());
+	public Collection<UserRoleDept> findBy(QueryObj queryObj) {
 		return super.findBy(queryObj);
 	}
 
-	public IPage<UserRole> findPageBy(QueryObj queryObj) {
-		IPage<UserRole> result=null;
+	public IPage<UserRoleDept> findPageBy(QueryObj queryObj) {
+		IPage<UserRoleDept> result=null;
 		try {
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
 			for(String queryField:queryObj.getQueryObjects()){
 				paramsMap.put(queryField, queryObj.getQueryObject(queryField));
 			}
 //			System.out.println("------paramsMap="+paramsMap+" queryField="+queryObj.getQueryObjects());
-			result=super.findPageBy(UserRole.class, paramsMap, queryObj.getPageSize(), queryObj.getPageIndex(),  queryObj.getSortField(), queryObj.isAsc());
+			result=super.findPageBy(UserRoleDept.class, paramsMap, queryObj.getPageSize(), queryObj.getPageIndex(),  queryObj.getSortField(), queryObj.isAsc());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 //			e.printStackTrace();
@@ -59,7 +59,7 @@ public class UserRoleDao extends BaseDAO<UserRole> implements IUserRoleDao {
 	 * @param roleId
 	 * @return
 	 */
-	public List<UserRole> findUserRoleByUserOrRole(final Long userId, final Long roleId){
+	public List<UserRoleDept> findUserRoleDeptByUserOrRole(final Long userId, final Long roleId){
 		QueryObj queryObj = new QueryObj(-1, -1, null, true);
 		if(userId!=null&&userId>0){
 			queryObj.setQueryObject("userId", userId);
@@ -67,8 +67,8 @@ public class UserRoleDao extends BaseDAO<UserRole> implements IUserRoleDao {
 		if(roleId!=null&&roleId>0){
 			queryObj.setQueryObject("roleId", roleId);
 		}
-		Collection<UserRole> list=this.findBy(queryObj);
-		List<UserRole> res = new ArrayList();
+		Collection<UserRoleDept> list=this.findBy(queryObj);
+		List<UserRoleDept> res = new ArrayList();
 		res.addAll(list);
 		return res;
 	}

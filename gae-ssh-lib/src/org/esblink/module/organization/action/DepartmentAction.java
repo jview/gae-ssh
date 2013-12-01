@@ -30,7 +30,6 @@ public class DepartmentAction extends BaseGridAction<Department> {
 	public String saveDepartment() {
 		try {
 			Department dept = null;
-			System.out.println("-------"+this.department);
 			if(this.department.getId()!=null && this.department.getId()>0){
 				dept = this.departmentBiz.findDepartment(this.department.getId());
 				dept.load(this.department);
