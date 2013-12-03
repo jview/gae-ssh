@@ -10,7 +10,6 @@ import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.esblink.common.base.domain.ModuleApplyType;
 import org.esblink.common.base.domain.ModuleType;
-import org.esblink.common.base.domain.UserStatus;
 import org.esblink.module.auth.biz.IModuleBiz;
 import org.esblink.module.auth.biz.IRoleBiz;
 import org.esblink.module.auth.biz.IUserBiz;
@@ -43,7 +42,7 @@ public class InitBiz implements IInitBiz {
 	private IDepartmentBiz departmentBiz;
 	
 	public void initAll(){
-		Collection list=this.roleBiz.findRoleByName("admin%");
+		Collection list=this.roleBiz.findRoleByName("admin");
 		if(list.size()==0){
 			this.initDept();
 			this.initEmployee();
@@ -65,7 +64,7 @@ public class InitBiz implements IInitBiz {
 		this.userBiz.addUsers(userCodes);
 		try {
 			log4.info("------initUser-admin password-");
-			this.userBiz.modUserPassword("idp123456", "admin");
+			this.userBiz.modUserPassword("admin", "admin");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			log4.error("set admin password", e);

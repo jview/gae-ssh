@@ -151,7 +151,7 @@ public class LoginBiz extends BaseBIZ implements ILoginBiz {
 	public User findUserByNo(String username) throws AuthorizeException{
 		User user = userBiz.findUserByNo(username);
 		if (null == user){
-			if(this.initBiz!=null && username.equals("esblink")){
+			if(this.initBiz!=null && username.equals("admin")){
 				this.initBiz.initAll();
 			}
 			throw new NotExistUserException();
