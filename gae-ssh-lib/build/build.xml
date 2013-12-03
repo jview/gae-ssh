@@ -11,7 +11,6 @@
 	 </target>
 	<!-- 清除配置，更新时会重新下载 -->
 	<target name="cleanConfig">
-			<delete file="${workdir}/src/com/sf/module/security/META-INF/config/beans.xml"/>
 			<delete file="${workdir}/resources/config/beans.xml"/>
 			<delete file="${workdir}/WebContent/META-INF/context.xml"/>			
 			<delete file="${workdir}/WebContent/WEB-INF/sysconfig.properties"/>
@@ -26,8 +25,6 @@
 		<echo message="${workdir}/WebContent/info.jsp deleted"/>
 		<delete dir="${workdir}/WebContent/reports_test"/>
 		<echo message="${workdir}/WebContent/reports_test deleted"/>
-		<delete dir="${workdir}/WebContent/WEB-INF/classes/com/sf/test"/>
-		<echo message="${workdir}/WebContent/WEB-INF/classes/com/sf/test deleted"/>
 		<delete dir="${workdir}/WebContent/WEB-INF/classes/com/gof"/>
 		<echo message="${workdir}/WebContent/WEB-INF/classes/com/gof deleted"/>
 		<delete dir="${workdir}/WebContent/WEB-INF/classes/WEB-INF"/>
@@ -192,7 +189,7 @@
 			</auxClasspath>
 			
 			<sourcePath path="src" />
-			<sourcePath path="${workdir}/test/com/sf/test/module/TestPlace.java" />	
+			<sourcePath path="${workdir}/test/net/esblink/test/module/TestPlace.java" />	
 		</findbugs>
 		
 		<echo message="==========scan ${project.name} with Findbugs over!==========" />
