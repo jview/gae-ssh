@@ -68,7 +68,7 @@ public class InitBiz implements IInitBiz {
 			this.userBiz.modUserPassword("idp123456", "admin");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log4.error("set admin password", e);
 		}
 	}
 	
@@ -77,6 +77,7 @@ public class InitBiz implements IInitBiz {
 		Department dept = null;
 		dept = new Department();
 		dept.setCode("001");
+		dept.setDeptCode("001");
 		dept.setDeptName("esblink");
 		dept.setDeleteFlg(false);
 		dept.setValidDate(new Date());

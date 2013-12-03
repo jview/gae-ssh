@@ -28,8 +28,8 @@ public class RoleDao extends BaseDAO<Role> implements IRoleDao {
 //			return null;
 			roleName=roleName.trim();
 			QueryObj queryObj = new QueryObj(-1, -1, null, false);
-//			queryObj.setQueryObject("name", roleName);
-			queryObj.setQueryObject("_like_name", roleName+"%");
+			queryObj.setQueryObject("name", roleName);
+//			queryObj.setQueryObject("_like_name", roleName+"%");
 			Collection<Role> roleList=this.findBy(queryObj);
 			List<Role> rList=new ArrayList<Role>();
 			rList.addAll(roleList);

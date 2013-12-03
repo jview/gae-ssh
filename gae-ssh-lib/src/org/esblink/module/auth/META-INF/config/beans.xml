@@ -21,6 +21,10 @@
 		<property name="moduleDao" ref="moduleDao" />
 		<property name="userDao" ref="userDao" />
 	</bean>
+	<bean id="roleModuleDao" class="org.esblink.module.auth.dao.RoleModuleDao" />
+	<bean id="roleModuleBiz" class="org.esblink.module.auth.biz.RoleModuleBiz">
+		<property name="roleModuleDao" ref="roleModuleDao" />
+	</bean>
 	<bean id="userRoleDao" class="org.esblink.module.auth.dao.UserRoleDao" />
 	<bean id="userRoleBiz" class="org.esblink.module.auth.biz.UserRoleBiz">
 		<property name="userRoleDao" ref="userRoleDao" />
