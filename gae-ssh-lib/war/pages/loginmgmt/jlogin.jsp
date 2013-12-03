@@ -23,7 +23,7 @@
 								<td>${app:i18n('username')}</td><td><input class="easyui-validatebox" id="username" name="username" value="admin" data-options="required:true" missingMessage="${app:i18n('msg.input.required')}"/></td>
 							</tr>
 							<tr>
-								<td>${app:i18n('password')}</td><td><input class="easyui-validatebox" type="password" id="password" name="password" value="esblink123" data-options="required:true" missingMessage="${app:i18n('msg.input.required')}"/></td>
+								<td>${app:i18n('password')}</td><td><input class="easyui-validatebox" type="password" id="password" name="password" value="admin" data-options="required:true" missingMessage="${app:i18n('msg.input.required')}"/></td>
 							</tr>
 							<tr>
 								<td>${app:i18n('validCode')}</td><td>
