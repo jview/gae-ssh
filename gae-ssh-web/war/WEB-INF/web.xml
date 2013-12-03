@@ -67,18 +67,6 @@
 		<servlet-name>resteasy-servlet</servlet-name> 
 		<url-pattern>/rest/*</url-pattern> 
 	</servlet-mapping> 
-
-
-  
-	<servlet>
-		<servlet-name>contactInfo</servlet-name>
-		<servlet-class>org.esblink.module.customer.servlet.ContactInfoServlet</servlet-class>
-	</servlet>
-  
-	<servlet-mapping>
-		<servlet-name>contactInfo</servlet-name>
-		<url-pattern>/customer/contactInfoInfo</url-pattern>
-	</servlet-mapping>
   
 	<filter>
 		<filter-name>struts2-gae</filter-name>
