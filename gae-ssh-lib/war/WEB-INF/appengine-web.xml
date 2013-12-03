@@ -18,11 +18,13 @@
     <include path="**.nocache.*" expiration="0s" />
 
     <include path="**.cache.*" expiration="365d" />
-    <exclude path="**.gwt.rpc" />
     <include path="/**.gif" expiration="4d 5h" />
-        <include path="/**.js" expiration="0d 1h" />
-        <include path="/**.css" expiration="0d 1h" />
-        <include path="/**.png" expiration="4d 5h" />
+    <include path="/**.js" expiration="0d 1h" />
+    <include path="/**.css" expiration="0d 1h" />
+    <include path="/**.png" expiration="4d 5h" />
+        
+    <exclude path="**.gwt.rpc" />
+    
   </static-files>
   
 

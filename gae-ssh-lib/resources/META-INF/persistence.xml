@@ -19,6 +19,7 @@
         <!-- auth -->
         <class>org.esblink.module.auth.domain.Module</class>
         <class>org.esblink.module.auth.domain.Role</class>
+        <class>org.esblink.module.auth.domain.RoleModule</class>
         <class>org.esblink.module.auth.domain.User</class>
         <class>org.esblink.module.auth.domain.UserRole</class>
         <class>org.esblink.module.auth.domain.UserRoleDept</class>
